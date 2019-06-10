@@ -1,0 +1,232 @@
+/*
+ * Copyright (c) 2011-2018 JFXtras
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *      * Neither the name of the organization nor the
+ *        names of its contributors may be used to endorse or promote products
+ *        derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+ *  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ *  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+.background{
+    -fx-background-color: #1d1d1d;
+}
+
+.header{
+    -fx-font-size: 42pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+}
+
+.item-title{
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 0.6;
+}     
+
+/*******************************************************************************
+ *                                                                             *
+ * Push Button                                                                 *
+ *                                                                             *
+ ******************************************************************************/
+
+.button {
+    -fx-padding: 5 22 5 22;   
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+
+    -fx-background-radius: 0;
+
+    -fx-background-color: #1d1d1d;
+  
+     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #d8d8d8;
+}
+
+.button:hover{
+    -fx-background-color: #3a3a3a;
+}
+
+.button:pressed, .button:default:hover:pressed
+{
+  -fx-background-color: white;
+  -fx-text-fill: #1d1d1d;
+}
+
+.button:focused
+{
+    -fx-border-color: white, white;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 1);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:disabled, .button:default:disabled
+{
+    -fx-opacity: 0.4;
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+}
+
+.button:default
+{
+    -fx-background-color: #008287;
+    -fx-text-fill: #ffffff;
+}
+
+.button:default:hover{
+    -fx-background-color: #219297;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Toggle Button                                                               *
+ *                                                                             *
+ ******************************************************************************/
+
+.toggle-button {
+    -fx-padding: 5 22 5 22;   
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+
+    -fx-background-radius: 0;
+
+    -fx-background-color: #1d1d1d;
+  
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #d8d8d8;
+}
+
+.toggle-button:focused {
+    -fx-border-color: white, white;
+
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 1);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.toggle-button:hover {
+    -fx-text-fill: #d8d8d8;
+    -fx-background-color: #3a3a3a;
+}
+
+.toggle-button:selected {
+    -fx-background-color: white;
+    -fx-text-fill: #1d1d1d;
+}
+
+.toggle-button:selected:hover {
+    -fx-background-color: #eee;
+    -fx-text-fill: #1d1d1d;
+    
+    -fx-border-color: #eee;
+}
+.toggle-button:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Check Box                                                                   *
+ *                                                                             *
+ ******************************************************************************/
+
+.check-box {
+    -fx-text-fill: white;
+}
+
+.check-box .box {
+    -fx-background-color: #d1d1d1;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 2px;
+    -fx-borders-style: solid;
+    -fx-padding: 1;
+}
+
+.check-box .mark {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    
+    -fx-padding:7px;
+    -fx-shape: "M1,10L3,8L7,12L14,5L16,7L7,16Z"
+}
+
+.check-box:focused .box{
+    -fx-background-color: #d1d1d1;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: white, #d1d1d1;
+    -fx-border-width: 1, 2;
+    -fx-border-style: segments(1, 1), solid;
+    -fx-border-insets: -3, 0;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #202020;
+}
+
+.check-box:indeterminate .mark {
+   -fx-background-color: black; 
+   -fx-background-insets: 2.8; 
+   -fx-padding:7px;
+   -fx-shape: null;
+}
+
+.check-box:disabled
+{
+    -fx-opacity: 0.4;
+}
+
+.check-box:disabled .box
+{
+    -fx-border-color: white;
+    -fx-background-color: white;
+}
+
+.check-box:armed .box
+{
+    -fx-background-color: transparent, white;
+    -fx-background-insets: -1, 2;
+    -fx-background-radius: 0, 0;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Radio Button                                                                *
+ *                                                                             *
+ ******************************************************************************/
+
+.radio-button {
+    -fx-text-fill: white;
+}
+
+.radio-button .radio  {
+   -fx-background-color: #cfcfcf;
+   -fx-background-radius: 1.0em; /* large value to make sure this remains circular */
+   -fx-background-insets: 0;
+   
+   -fx-b
