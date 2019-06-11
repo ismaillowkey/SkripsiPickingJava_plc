@@ -46,7 +46,7 @@ public class Partlist  implements java.io.Serializable {
         return this.id.getSeq();
     }
     
-    public void setId(Integer seq0) {
+    public void setSeq(Integer seq0) {
         this.id.setSeq(seq0);
     }
     

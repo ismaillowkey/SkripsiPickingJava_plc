@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -28,6 +29,7 @@ import javafx.util.Callback;
 import javax.persistence.Table;
 import org.hibernate.Query;
 import pojos.Partlist;
+import pojos.PartlistId;
 
 /**
  * FXML Controller class
@@ -97,14 +99,14 @@ public class FXMLPickStockController implements Initializable {
                     kol_seq.setCellValueFactory(new PropertyValueFactory<Table, String>("seq"));
                     kol_seq.setSortable(false);
                     
-                    TableColumn kol_partno = new TableColumn("PartNo");
+                    TableColumn kol_partno = new TableColumn("partNo");
                     kol_partno.setMaxWidth( 1f * Integer.MAX_VALUE * 15 ); // 30% width
-                    kol_partno.setCellValueFactory(new PropertyValueFactory<Table, String>("partno"));
+                    kol_partno.setCellValueFactory(new PropertyValueFactory<Table, String>("partNo"));
                     kol_partno.setSortable(false);
                     
-                    TableColumn kol_partname = new TableColumn("PartName");
+                    TableColumn kol_partname = new TableColumn("partName");
                     kol_partname.setMaxWidth( 1f * Integer.MAX_VALUE * 15 ); // 30% width
-                    kol_partname.setCellValueFactory(new PropertyValueFactory<Table, String>("partname"));
+                    kol_partname.setCellValueFactory(new PropertyValueFactory<Table, String>("partName"));
                     kol_partname.setSortable(false);
                     
                     TableColumn kol_idpicking = new TableColumn("idpicking");
@@ -123,7 +125,15 @@ public class FXMLPickStockController implements Initializable {
                     
                     setRowTable(0);
                     
-                    System.out.println(getValueAt(0, 0));
+                    
+                    System.out.println(bacaTable(0).getSeq());
+                    System.out.println(bacaTable(0).getPartNo());
+                    System.out.println(bacaTable(0).getPartName());
+                    System.out.println(bacaTable(0).getIdpicking());
+                    System.out.println(bacaTable(0).getQty());
+                    
+
+                    //System.out.println(getValueAt(4,0));
                  }
                  catch(Exception ex){
                      System.out.println("error | " + ex);
@@ -131,6 +141,17 @@ public class FXMLPickStockController implements Initializable {
                  
                  
        }
+    }
+    
+    // get value from selected cell
+    private listTable bacaTable(int row){
+        int setSeq = (Integer) TblView2.getColumns().get(0).getCellObservableValue(row).getValue();
+        String setPartNo = TblView2.getColumns().get(1).getCellObservableValue(row).getValue().toString();
+        String setPartName = TblView2.getColumns().get(2).getCellObservableValue(row).getValue().toString(); 
+        int setIdpicking = (Integer) TblView2.getColumns().get(3).getCellObservableValue(row).getValue();
+        int setQty = (Integer) TblView2.getColumns().get(4).getCellObservableValue(row).getValue();
+        listTable lst = new listTable(setSeq, setPartNo, setPartName, setIdpicking, setQty);
+        return lst;
     }
     
     // Set row table selection
@@ -152,7 +173,38 @@ public class FXMLPickStockController implements Initializable {
     
     // get cell value by column and row
     public String getValueAt(int column, int row) {
-        return TblView2.getColumns().get(0).getCellObservableValue(0).getValue().toString(); 
+        return TblView2.getColumns().get(column).getCellObservableValue(row).getValue().toString(); 
     }
     
+    private class listTable{
+         private int seq;
+         private String partNo;
+         private String partName;
+         private int idpicking;
+         private int qty;
+         
+         public listTable(int seq, String partNo, String partName, int idpicking, int qty) {
+            this.seq = seq;
+            this.partNo = partNo;
+            this.partName = partName;
+            this.idpicking = idpicking;
+            this.qty = qty;
+         }
+         
+         public Integer getSeq() {
+            return this.seq;
+         }
+         public String getPartNo() {
+            return this.partNo;
+         }
+         public String getPartName() {
+            return this.partName;
+         }
+         public Integer getIdpicking() {
+            return this.idpicking;
+         }
+         public Integer getQty() {
+            return this.qty;
+         }
+    }
 }
