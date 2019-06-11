@@ -86,7 +86,7 @@ public class FXMLPickStockController implements Initializable {
                     TblView2.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY );
                     //disable row selection
                     //TblView2.setSelectionModel(null);
-                    TblView2.setDisable(true);
+                    //TblView2.setDisable(true);
                     
                     //TableColumn kol_id = new TableColumn("id");
                     //kol_id.setMaxWidth( 1f * Integer.MAX_VALUE * 10 ); // 10% width
@@ -122,6 +122,8 @@ public class FXMLPickStockController implements Initializable {
                     TblView2.getColumns().addAll(kol_seq,kol_partno,kol_partname,kol_idpicking,kol_qty);
                     
                     setRowTable(0);
+                    
+                    System.out.println(getValueAt(0, 0));
                  }
                  catch(Exception ex){
                      System.out.println("error | " + ex);
@@ -131,6 +133,7 @@ public class FXMLPickStockController implements Initializable {
        }
     }
     
+    // Set row table selection
     private void setRowTable(Integer row){
         Platform.runLater(() ->
                     {
@@ -140,10 +143,16 @@ public class FXMLPickStockController implements Initializable {
                     });
     }
     
+    // Clear row table selection
     private void setClearRowSelectionTable(){
         Platform.runLater(() -> {
             TblView2.getSelectionModel().clearSelection();
         });
+    }
+    
+    // get cell value by column and row
+    public String getValueAt(int column, int row) {
+        return TblView2.getColumns().get(0).getCellObservableValue(0).getValue().toString(); 
     }
     
 }
