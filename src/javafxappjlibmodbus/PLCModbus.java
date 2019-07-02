@@ -22,6 +22,8 @@ public class PLCModbus {
     public static ModbusMaster master;
     public static boolean mprocess;
 
+    public static String LastOpenPane;
+    
     // hibernate
     public static Session session_mysql;
     
@@ -30,6 +32,8 @@ public class PLCModbus {
     
     private static PLCModbus plcmodbus;
 
+    
+    
     public static void ConnectToSlave(SerialParameters sp) {
         try{
             master = ModbusMasterFactory.createModbusMasterRTU(sp);
