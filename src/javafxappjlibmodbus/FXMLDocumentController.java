@@ -90,13 +90,14 @@ public class FXMLDocumentController implements Initializable {
     static Timer timer1;
     static TimerTask myTask;
     static Stage stage;
-    static Pane newPane;
+    public static Pane newPane;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //stage = (Stage)form1.getScene().getWindow();
         getSerialPort(true);
         lblStatus.setText("...");
+        loadHome();
     }    
 
     
@@ -230,6 +231,8 @@ public class FXMLDocumentController implements Initializable {
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
+            stage = (Stage)form1.getScene().getWindow();
+            alert.initOwner(stage);
             String s = "Processing will exit. Are You Sure";
             alert.setContentText(s);
             Optional<ButtonType> result = alert.showAndWait();
@@ -237,7 +240,13 @@ public class FXMLDocumentController implements Initializable {
             if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                 // Change Pane
                 //Pane newPane;
-                try {
+                loadHome();
+            }
+        }
+    }
+    
+    public void loadHome(){
+        try {
                     newPane = FXMLLoader.load(getClass().getResource("FXMLHome.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
@@ -247,9 +256,6 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println(ex.getMessage());
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-        }
-        
     }
 
     @FXML
@@ -258,6 +264,8 @@ public class FXMLDocumentController implements Initializable {
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
+            stage = (Stage)form1.getScene().getWindow();
+            alert.initOwner(stage);
             String s = "Processing will exit. Are You Sure";
             alert.setContentText(s);
             Optional<ButtonType> result = alert.showAndWait();
@@ -284,6 +292,8 @@ public class FXMLDocumentController implements Initializable {
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
+            stage = (Stage)form1.getScene().getWindow();
+            alert.initOwner(stage);
             String s = "Processing will exit. Are You Sure";
             alert.setContentText(s);
             Optional<ButtonType> result = alert.showAndWait();
@@ -310,6 +320,8 @@ public class FXMLDocumentController implements Initializable {
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
+            stage = (Stage)form1.getScene().getWindow();
+            alert.initOwner(stage);
             String s = "Processing will exit. Are You Sure";
             alert.setContentText(s);
             Optional<ButtonType> result = alert.showAndWait();
@@ -336,6 +348,8 @@ public class FXMLDocumentController implements Initializable {
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
+            stage = (Stage)form1.getScene().getWindow();
+            alert.initOwner(stage);
             String s = "Processing will exit. Are You Sure";
             alert.setContentText(s);
             Optional<ButtonType> result = alert.showAndWait();
