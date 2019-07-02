@@ -104,7 +104,7 @@ public class FXMLDocumentController implements Initializable {
             SerialUtils.setSerialPortFactory(new SerialPortFactoryJSSC());
              PLCModbus.sp.setDevice((String) cmbPort.getValue());
              // these parameters are set by default 9600 8N1
-             PLCModbus.sp.setBaudRate(SerialPort.BaudRate.BAUD_RATE_9600);
+             PLCModbus.sp.setBaudRate(SerialPort.BaudRate.BAUD_RATE_115200);
              PLCModbus.sp.setDataBits(8);
              PLCModbus.sp.setParity(SerialPort.Parity.NONE);
              PLCModbus.sp.setStopBits(1);
@@ -185,7 +185,7 @@ public class FXMLDocumentController implements Initializable {
             }
             
             if (startup){
-                if (PLCModbus.dev_list[i].toString().equals("/dev/ttyAMA0")){
+                if (PLCModbus.dev_list[i].toString().equals("/dev/ttyUSB0")){
                     btnConnect.fire();
                     //System.out.println("ok");
                 }

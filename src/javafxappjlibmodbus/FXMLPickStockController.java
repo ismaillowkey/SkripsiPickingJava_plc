@@ -50,41 +50,7 @@ public class FXMLPickStockController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-    }    
-
-    @FXML
-    private void TxtBarcodeScan_KeyPressed(KeyEvent event) {
-       // Jika enter ditekan
-       if(event.getCode().equals(KeyCode.ENTER)){
-           /*
-           Alert alert = new Alert(Alert.AlertType.ERROR);
-                 alert.setTitle("Error");
-                 alert.setHeaderText("Key Pressed" );
-                 alert.showAndWait();
-            */
-                 
-                 try{
-                     
-                    //open session
-                    PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
-
-                    // create hql
-                    String hql = "from Partlist";
-                    Query q = PLCModbus.session_mysql.createQuery(hql);
-
-                    // fill to pojo
-                    List<pojos.Partlist> lst=q.list();
-                    
-                    //lst.forEach((prt) -> {
-                    //    System.out.println(prt.getSeq() + " | " + prt.getPartNo());    
-                    //});
-                    
-                    
-                    ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst); 
-                    
-                    
-                    TblView2.setEditable(false);
+        TblView2.setEditable(false);
                     TblView2.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY );
                     //disable row selection
                     //TblView2.setSelectionModel(null);
@@ -119,10 +85,44 @@ public class FXMLPickStockController implements Initializable {
                     kol_qty.setCellValueFactory(new PropertyValueFactory<Table, String>("qty"));
                     kol_qty.setSortable(false);
                     
-                    TblView2.setItems(data);
+                    
                     //TblView2.getColumns().addAll(kol_id,kol_seq,kol_partno,kol_partname,kol_idpicking,kol_qty);
                     TblView2.getColumns().addAll(kol_seq,kol_partno,kol_partname,kol_idpicking,kol_qty);
+    }    
+
+    @FXML
+    private void TxtBarcodeScan_KeyPressed(KeyEvent event) {
+       // Jika enter ditekan
+       if(event.getCode().equals(KeyCode.ENTER)){
+           /*
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+                 alert.setTitle("Error");
+                 alert.setHeaderText("Key Pressed" );
+                 alert.showAndWait();
+            */
+                 
+                 try{
+                     
+                    //open session
+                    PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
+
+                    // create hql
+                    String hql = "from Partlist";
+                    Query q = PLCModbus.session_mysql.createQuery(hql);
+
+                    // fill to pojo
+                    List<pojos.Partlist> lst=q.list();
                     
+                    //lst.forEach((prt) -> {
+                    //    System.out.println(prt.getSeq() + " | " + prt.getPartNo());    
+                    //});
+                    
+                    
+                    ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst); 
+                    
+                    
+                    
+                    TblView2.setItems(data);
                     setRowTable(0);
                     
                     
