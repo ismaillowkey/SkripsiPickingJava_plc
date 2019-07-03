@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="610.0" maxWidth="1240.0" prefHeight="610.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLPickStockController">
+<AnchorPane id="AnchorPane" maxHeight="654.0" maxWidth="1240.0" prefHeight="654.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLPickStockController">
    <children>
-      <TextField fx:id="TxtBarcodeScan" layoutX="440.0" layoutY="79.0" onKeyPressed="#TxtBarcodeScan_KeyPressed" prefHeight="51.0" prefWidth="607.0" style="-fx-font-size: 30;" AnchorPane.rightAnchor="200.0" />
-      <Label layoutX="205.0" layoutY="86.0" prefHeight="51.0" prefWidth="208.0" style="-fx-font-size: 30;" text="Barcode Scan" AnchorPane.leftAnchor="150.0" />
-      <VBox layoutX="34.0" layoutY="188.0" prefHeight="441.0" prefWidth="1240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
+      <TableView fx:id="TblView2" layoutX="150.0" layoutY="238.0" prefHeight="415.0" prefWidth="940.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />
+      <Pane layoutX="150.0" layoutY="14.0" prefHeight="89.0" prefWidth="940.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <TableView fx:id="TblView2" prefHeight="438.0" prefWidth="940.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;" stylesheets="@../css/tablerow.css" />
+            <Label layoutX="36.0" layoutY="15.0" prefHeight="51.0" prefWidth="208.0" style="-fx-font-size: 30;" text="Barcode Scan" />
+            <TextField fx:id="TxtBarcodeScan" layoutX="300.0" layoutY="14.0" onKeyPressed="#TxtBarcodeScan_KeyPressed" prefHeight="65.0" prefWidth="533.0" style="-fx-font-size: 30;" />
+            <Button layoutX="842.0" layoutY="14.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="84.0" text="Enter">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
          </children>
-      </VBox>
+      </Pane>
+      <Pane layoutX="150.0" layoutY="107.0" prefHeight="126.0" prefWidth="940.0" style="-fx-border-color: black; -fx-border-radius: 10;">
+         <children>
+            <Label layoutX="21.0" layoutY="14.0" prefHeight="39.0" prefWidth="104.0" style="-fx-font-size: 20;" text="Seq No">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+            <TextField fx:id="TxtSelectedSeqNo" layoutX="127.0" layoutY="14.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
+            <TextField fx:id="TxtSelectedPartName" layoutX="127.0" layoutY="69.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
+            <Label layoutX="21.0" layoutY="69.0" prefHeight="39.0" prefWidth="104.0" style="-fx-font-size: 20;" text="Part Name">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+            <TextField fx:id="TxtSelectedPartNo" layoutX="504.0" layoutY="14.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
+            <Label layoutX="413.0" layoutY="14.0" prefHeight="39.0" prefWidth="90.0" style="-fx-font-size: 20;" text="Part No">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+            <Label layoutX="413.0" layoutY="69.0" prefHeight="39.0" prefWidth="90.0" style="-fx-font-size: 20;" text="ID Picking">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+            <TextField fx:id="TxtSelectedIDPicking" layoutX="504.0" layoutY="69.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
+            <Label layoutX="775.0" layoutY="47.0" prefHeight="39.0" prefWidth="43.0" style="-fx-font-size: 20;" text="Qty">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Label>
+            <TextField fx:id="TxtSelectedQty" layoutX="818.0" layoutY="47.0" prefHeight="44.0" prefWidth="90.0" style="-fx-font-size: 20;" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

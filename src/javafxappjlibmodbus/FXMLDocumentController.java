@@ -260,7 +260,19 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void menuInStock_Clicked(ActionEvent event)  {
-        if (!(PLCModbus.LastOpenPane).equals("instock")){
+        if ((PLCModbus.LastOpenPane).equals("home")){
+            try {
+                    newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
+                    mainPane.getChildren().clear();
+                    mainPane.getChildren().add(newPane);
+                    PLCModbus.LastOpenPane = "instock";
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        
+        else if (!(PLCModbus.LastOpenPane).equals("instock")){
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
@@ -288,7 +300,19 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void menuOutStock_Clicked(ActionEvent event) {
-        if (!(PLCModbus.LastOpenPane).equals("outstock")){
+        if ((PLCModbus.LastOpenPane).equals("home")){
+            try {
+                    newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
+                    mainPane.getChildren().clear();
+                    mainPane.getChildren().add(newPane);
+                    PLCModbus.LastOpenPane = "instock";
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        
+        else if (!(PLCModbus.LastOpenPane).equals("outstock")){
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
@@ -316,7 +340,19 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void menuLayout_Clicked(ActionEvent event) {
-        if (!(PLCModbus.LastOpenPane).equals("layout")){
+        if ((PLCModbus.LastOpenPane).equals("home")){
+            try {
+                    newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
+                    mainPane.getChildren().clear();
+                    mainPane.getChildren().add(newPane);
+                    PLCModbus.LastOpenPane = "instock";
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        
+        else if (!(PLCModbus.LastOpenPane).equals("layout")){
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
@@ -344,7 +380,19 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void menuSettings_Clicked(ActionEvent event) {
-        if (!(PLCModbus.LastOpenPane).equals("setting")){
+         if ((PLCModbus.LastOpenPane).equals("home")){
+            try {
+                    newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
+                    mainPane.getChildren().clear();
+                    mainPane.getChildren().add(newPane);
+                    PLCModbus.LastOpenPane = "instock";
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        
+        else if (!(PLCModbus.LastOpenPane).equals("setting")){
             //alert change pane
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");

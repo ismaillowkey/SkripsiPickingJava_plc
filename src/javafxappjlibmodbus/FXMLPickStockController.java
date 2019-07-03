@@ -43,6 +43,16 @@ public class FXMLPickStockController implements Initializable {
     private TextField TxtBarcodeScan;
     @FXML
     private TableView<pojos.Partlist> TblView2;
+    @FXML
+    private TextField TxtSelectedSeqNo;
+    @FXML
+    private TextField TxtSelectedPartName;
+    @FXML
+    private TextField TxtSelectedPartNo;
+    @FXML
+    private TextField TxtSelectedIDPicking;
+    @FXML
+    private TextField TxtSelectedQty;
 
     /**
      * Initializes the controller class.

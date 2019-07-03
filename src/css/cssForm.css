@@ -13,7 +13,7 @@ and open the template in the editor.
     -fx-border-color: transparent;
     -fx-font-size : 15;
 }
-    
+
 .button:hover{
     -fx-background-color: rgb(85,127,255);
     -fx-scale-y: 1.1;

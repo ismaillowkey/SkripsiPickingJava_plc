@@ -17,15 +17,15 @@
                <VBox.margin>
                   <Insets left="5.0" top="5.0" />
                </VBox.margin></Button>
-            <Button fx:id="menuInStock" mnemonicParsing="false" onAction="#menuInStock_Clicked" prefHeight="131.0" prefWidth="142.0" stylesheets="@../css/cssForm.css" text="VIEW STOCK">
+            <Button fx:id="menuInStock" mnemonicParsing="false" onAction="#menuInStock_Clicked" prefHeight="131.0" prefWidth="142.0" stylesheets="@../css/cssForm.css" text="VIEW&#10;STOCK">
                <VBox.margin>
                   <Insets left="5.0" top="10.0" />
                </VBox.margin></Button>
-            <Button fx:id="menuOutStock" mnemonicParsing="false" onAction="#menuOutStock_Clicked" prefHeight="131.0" prefWidth="142.0" stylesheets="@../css/cssForm.css" text="PICK STOCK">
+            <Button fx:id="menuOutStock" mnemonicParsing="false" onAction="#menuOutStock_Clicked" prefHeight="131.0" prefWidth="142.0" stylesheets="@../css/cssForm.css" text="PICK&#10;STOCK">
                <VBox.margin>
                   <Insets left="5.0" top="10.0" />
                </VBox.margin></Button>
-            <Button fx:id="menuLayout" mnemonicParsing="false" onAction="#menuLayout_Clicked" prefHeight="131.0" prefWidth="142.0" stylesheets="@../css/cssForm.css" text="LAYOUT PICKING">
+            <Button fx:id="menuLayout" mnemonicParsing="false" onAction="#menuLayout_Clicked" prefHeight="131.0" prefWidth="142.0" stylesheets="@../css/cssForm.css" text="LAYOUT&#10;PICKING">
                <VBox.margin>
                   <Insets left="5.0" top="10.0" />
                </VBox.margin></Button>
