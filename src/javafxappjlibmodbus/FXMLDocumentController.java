@@ -131,6 +131,7 @@ public class FXMLDocumentController implements Initializable {
                         // at next string we receive ten registers from a slave with id of 1 at offset of 0.
                         int[] registerValues;
                         try {
+                            Thread.sleep(200);
                             registerValues = PLCModbus.master.readHoldingRegisters(1, 1-1, 1);
                             //System.out.println("4x1 : " + registerValues[0]);
                             showStatus("Connected");
@@ -138,6 +139,8 @@ public class FXMLDocumentController implements Initializable {
                         } catch (ModbusProtocolException | ModbusNumberException | ModbusIOException ex ) {
                             showStatus("Reconnecting...");
                             //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }             
                 };

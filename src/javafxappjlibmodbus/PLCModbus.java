@@ -27,10 +27,10 @@ public class PLCModbus {
     // hibernate
     public static Session session_mysql;
     
-    private static boolean StatusKoneksi;
+    public static boolean StatusKoneksi;
     private static String ErrorConnect;
     
-    private static PLCModbus plcmodbus;
+    //private static PLCModbus plcmodbus;
 
     
     
