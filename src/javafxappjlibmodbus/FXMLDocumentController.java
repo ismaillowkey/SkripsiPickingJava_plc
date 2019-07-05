@@ -47,7 +47,6 @@ import jssc.SerialPortList;
  * @author lupa-nama
  */
 public class FXMLDocumentController implements Initializable {
-    
     @FXML
     private Label label;
     @FXML
@@ -87,7 +86,6 @@ public class FXMLDocumentController implements Initializable {
     static TimerTask myTask;
     static Stage stage;
     public static Pane newPane;
-    @FXML
     private Label lblStatusBarcode;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -160,14 +158,6 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void showStatus(String s){
-        /*
-        Platform.runLater(new Runnable() {
-                @Override public void run() {
-                     lblStatus.setText(s);
-                }
-        });
-        */
-
         Platform.runLater( () -> {
           lblStatus.setText(s);
         });

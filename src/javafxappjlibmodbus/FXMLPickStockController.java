@@ -18,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -53,6 +54,8 @@ public class FXMLPickStockController implements Initializable {
     private TextField TxtSelectedIDPicking;
     @FXML
     private TextField TxtSelectedQty;
+    @FXML
+    private Label LblStatusBarcode;
 
     /**
      * Initializes the controller class.
@@ -103,22 +106,28 @@ public class FXMLPickStockController implements Initializable {
     @FXML
     private void TxtBarcodeScan_KeyPressed(KeyEvent event) {
        // Jika enter ditekan
-        if(event.getCode().equals(KeyCode.ENTER) && (!TxtBarcodeScan.getText().isEmpty())){
-                 try{
+        if(event.getCode().equals(KeyCode.ENTER)){
+            if (TxtBarcodeScan.getText().isEmpty()){
+                System.out.println("Data barcode kosong");
+                Platform.runLater( () -> {
+                LblStatusBarcode.setText("Isi Barcode kosong");
+            });
+            }
+            else{
+                 try{    
+                    LblStatusBarcode.setText("...");
+                    
                     //open session
                     PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
-
                     // create hql
                     String hql = "from Partlist";
                     Query q = PLCModbus.session_mysql.createQuery(hql);
                     // fill to pojo
-                    List<pojos.Partlist> lst=q.list();
-                    
+                    List<pojos.Partlist> lst=q.list();          
                     ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst); 
-                    
-                    
-                    
+                          
                     TblView2.setItems(data);
+                    //highlight to row 0
                     setRowTable(0);
                     
                     
@@ -133,11 +142,9 @@ public class FXMLPickStockController implements Initializable {
                  }
                  catch(Exception ex){
                      System.out.println("error | " + ex);
-                 }         
+                 } 
+            }
        }
-        else{
-            System.out.println("Data barcode kosong");
-        }
     }
     
     // get value from selected cell
