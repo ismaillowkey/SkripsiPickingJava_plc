@@ -14,12 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import com.intelligt.modbus.jlibmodbus.Modbus;
-import com.intelligt.modbus.jlibmodbus.master.ModbusMaster;
-import com.intelligt.modbus.jlibmodbus.master.ModbusMasterFactory;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusNumberException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusProtocolException;
-import com.intelligt.modbus.jlibmodbus.serial.SerialParameters;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPort;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPortFactoryJSSC;
 import com.intelligt.modbus.jlibmodbus.serial.SerialUtils;
@@ -37,11 +34,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 //import static javafxappjlibmodbus.FXMLDocumentController.sp;
 import jssc.SerialPortList;
+
+
 
 
 /**
@@ -82,8 +80,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Pane mainPane;
     @FXML
-    private BorderPane borderPane1;
-    @FXML
     private Pane paneCOM;
     
     
@@ -91,6 +87,8 @@ public class FXMLDocumentController implements Initializable {
     static TimerTask myTask;
     static Stage stage;
     public static Pane newPane;
+    @FXML
+    private Label lblStatusBarcode;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -98,8 +96,13 @@ public class FXMLDocumentController implements Initializable {
         getSerialPort(true);
         lblStatus.setText("...");
         loadHome();
+        
     }    
 
+    public void setLabelStatus(String lbl){
+        this.lblStatusBarcode.setText(lbl);
+    }
+    
     
     @FXML
     private void btnConnect_clicked(ActionEvent event){

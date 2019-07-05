@@ -103,30 +103,16 @@ public class FXMLPickStockController implements Initializable {
     @FXML
     private void TxtBarcodeScan_KeyPressed(KeyEvent event) {
        // Jika enter ditekan
-       if(event.getCode().equals(KeyCode.ENTER)){
-           /*
-           Alert alert = new Alert(Alert.AlertType.ERROR);
-                 alert.setTitle("Error");
-                 alert.setHeaderText("Key Pressed" );
-                 alert.showAndWait();
-            */
-                 
+        if(event.getCode().equals(KeyCode.ENTER) && (!TxtBarcodeScan.getText().isEmpty())){
                  try{
-                     
                     //open session
                     PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
 
                     // create hql
                     String hql = "from Partlist";
                     Query q = PLCModbus.session_mysql.createQuery(hql);
-
                     // fill to pojo
                     List<pojos.Partlist> lst=q.list();
-                    
-                    //lst.forEach((prt) -> {
-                    //    System.out.println(prt.getSeq() + " | " + prt.getPartNo());    
-                    //});
-                    
                     
                     ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst); 
                     
@@ -147,10 +133,11 @@ public class FXMLPickStockController implements Initializable {
                  }
                  catch(Exception ex){
                      System.out.println("error | " + ex);
-                 }
-                 
-                 
+                 }         
        }
+        else{
+            System.out.println("Data barcode kosong");
+        }
     }
     
     // get value from selected cell

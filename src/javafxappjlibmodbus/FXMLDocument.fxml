@@ -40,7 +40,6 @@
          </children>
       </VBox>
       <Pane fx:id="mainPane" layoutX="159.0" layoutY="30.0" maxHeight="610.0" maxWidth="1240.0" prefHeight="610.0" prefWidth="1240.0" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <BorderPane fx:id="borderPane1" layoutX="173.0" layoutY="401.0" prefHeight="269.0" prefWidth="241.0" />
       <HBox layoutX="851.0" layoutY="600.0" prefHeight="111.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="20.0">
          <children>
             <TextField fx:id="txt4x1" style="-fx-background-color: lightgrey;" />
@@ -58,5 +57,6 @@
             </Pane>
          </children>
       </HBox>
+      <Label fx:id="lblStatusBarcode" layoutX="195.0" layoutY="681.0" text="...." />
     </children>
 </AnchorPane>
