@@ -104,7 +104,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void btnConnect_clicked(ActionEvent event){
-        Modbus.setLogLevel(Modbus.LogLevel.LEVEL_DEBUG);
+        //Modbus.setLogLevel(Modbus.LogLevel.LEVEL_DEBUG);
         if (PLCModbus.dev_list.length > 0) {
             SerialUtils.setSerialPortFactory(new SerialPortFactoryJSSC());
              PLCModbus.sp.setDevice((String) cmbPort.getValue());
@@ -301,7 +301,7 @@ public class FXMLDocumentController implements Initializable {
                     newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
-                    PLCModbus.LastOpenPane = "instock";
+                    PLCModbus.LastOpenPane = "outstock";
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);

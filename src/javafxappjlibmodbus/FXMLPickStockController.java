@@ -115,33 +115,29 @@ public class FXMLPickStockController implements Initializable {
                 try {
                     LblStatusBarcode.setText("...");
 
-                    //open session
-                    PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
-                    // create hql
-                    String hql = "from Partlist";
-                    Query q = PLCModbus.session_mysql.createQuery(hql);
-                    // fill to pojo
-                    List<pojos.Partlist> lst = q.list();
-                    ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst);
-
-                    //binding to tableview
-                    TblView2.setItems(data);
-                    //highlight to row 0
-                    setRowTable(0);
-
-                    TxtSelectedSeqNo.setText(String.valueOf(bacaTable(0).getSeq()));
-                    TxtSelectedPartNo.setText(String.valueOf(bacaTable(0).getPartNo()));
-                    TxtSelectedPartName.setText(String.valueOf(bacaTable(0).getPartName()));
-                    TxtSelectedIDPicking.setText(String.valueOf(bacaTable(0).getIdpicking()));
-                    TxtSelectedQty.setText(String.valueOf(bacaTable(0).getQty()));
-
-                    //System.out.println(bacaTable(0).getSeq());
-                    //System.out.println(bacaTable(0).getPartNo());
-                    //System.out.println(bacaTable(0).getPartName());
-                    //System.out.println(bacaTable(0).getIdpicking());
-                    //System.out.println(bacaTable(0).getQty());
-                    //System.out.println(getValueAt(4,0));
                     
+                    Runnable task = () -> {
+                        //open session
+                        PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
+                        // create hql
+                        String hql = "from Partlist";
+                        Query q = PLCModbus.session_mysql.createQuery(hql);
+                        // fill to pojo
+                        List<pojos.Partlist> lst = q.list();
+                        ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst);
+
+                        //binding to tableview
+                        TblView2.setItems(data);
+                        //highlight to row 0
+                        setRowTable(0);
+
+                        TxtSelectedSeqNo.setText(String.valueOf(bacaTable(0).getSeq()));
+                        TxtSelectedPartNo.setText(String.valueOf(bacaTable(0).getPartNo()));
+                        TxtSelectedPartName.setText(String.valueOf(bacaTable(0).getPartName()));
+                        TxtSelectedIDPicking.setText(String.valueOf(bacaTable(0).getIdpicking()));
+                        TxtSelectedQty.setText(String.valueOf(bacaTable(0).getQty()));
+                    };
+                    new Thread(task).start();
                     startReading();
                     
                 } catch (Exception ex) {
@@ -163,12 +159,24 @@ public class FXMLPickStockController implements Initializable {
                 public void run() {
                     //ThreadReadServer      
                     if(PLCModbus.StatusKoneksi == true){
-                        System.out.println("jalan dulu...");
                         while(isThreadRun){
                             try{
                                 Thread.sleep(200);
                                 if(startPicking){
-                                    System.out.println("working...");
+                                    
+                                    
+                                    Runnable task = () -> {
+                                        System.out.println("working 1...");
+                                        //handleRequest(connection);
+                                    };
+                                    new Thread(task).start();
+                                    
+                                    Runnable task1 = () -> {
+                                        System.out.println("working 2...");
+                                        //handleRequest(connection);
+                                    };
+                                    new Thread(task1).start();
+                                    
                                 }
                             }
                             catch(Exception e){
