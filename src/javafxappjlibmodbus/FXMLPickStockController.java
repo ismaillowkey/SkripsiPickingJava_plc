@@ -5,11 +5,16 @@
  */
 package javafxappjlibmodbus;
 
+import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
+import com.intelligt.modbus.jlibmodbus.exception.ModbusNumberException;
+import com.intelligt.modbus.jlibmodbus.exception.ModbusProtocolException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +27,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import static javafxappjlibmodbus.FXMLDocumentController.timer1;
 import javax.persistence.Table;
 import org.hibernate.Query;
 
@@ -31,7 +35,9 @@ import org.hibernate.Query;
  *
  * @author lupa-nama
  */
-public class FXMLPickStockController implements Initializable {
+public class FXMLPickStockController implements Initializable
+{
+
     @FXML
     private TextField TxtBarcodeScan;
     @FXML
@@ -51,18 +57,22 @@ public class FXMLPickStockController implements Initializable {
 
     private Timer timerloop;
     private TimerTask myTask;
-    
+
     private Thread thread = null;
-    private listTable lsttable;
+    private listTable lsttable; // for get value of tableview
+    private listTable bacaDGV; // for process
     private boolean isThreadRun = false;
     private boolean startPicking = false;
     private boolean NetworkIsOK = false;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        //Timer1_tick(true);
+        bacaDGV = new listTable();
         // TODO
         TblView2.setEditable(false);
         TblView2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -103,20 +113,27 @@ public class FXMLPickStockController implements Initializable {
     }
 
     @FXML
-    private void TxtBarcodeScan_KeyPressed(KeyEvent event) {
+    private void TxtBarcodeScan_KeyPressed(KeyEvent event)
+    {
         // Jika enter ditekan
-        if (event.getCode().equals(KeyCode.ENTER)) {
-            if (TxtBarcodeScan.getText().isEmpty()) {
+        if (event.getCode().equals(KeyCode.ENTER))
+        {
+            if (TxtBarcodeScan.getText().isEmpty())
+            {
                 System.out.println("Data barcode kosong");
-                Platform.runLater(() -> {
+                Platform.runLater(() ->
+                {
                     LblStatusBarcode.setText("Isi Barcode kosong");
                 });
-            } else {
-                try {
+            }
+            else
+            {
+                try
+                {
                     LblStatusBarcode.setText("...");
 
-                    
-                    Runnable task = () -> {
+                    Runnable task = () ->
+                    {
                         //open session
                         PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
                         // create hql
@@ -128,78 +145,252 @@ public class FXMLPickStockController implements Initializable {
 
                         //binding to tableview
                         TblView2.setItems(data);
-                        //highlight to row 0
-                        setRowTable(0);
+                        
+                        
 
                         TxtSelectedSeqNo.setText(String.valueOf(bacaTable(0).getSeq()));
                         TxtSelectedPartNo.setText(String.valueOf(bacaTable(0).getPartNo()));
                         TxtSelectedPartName.setText(String.valueOf(bacaTable(0).getPartName()));
                         TxtSelectedIDPicking.setText(String.valueOf(bacaTable(0).getIdpicking()));
                         TxtSelectedQty.setText(String.valueOf(bacaTable(0).getQty()));
+                        
+                        //highlight to row 0
+                        setRowTable(0);
+                        bacaDGV.seq = 1; //set to seq 1 (start from 1)
+                        LastBacaIDPicking = 1;
+                        
+                        
+                        seq = bacaDGV.seq;
+                        
+                        bacaDGV.seq = bacaTable(seq -1 ).seq; //column Seq
+                        bacaDGV.idpicking = bacaTable(seq - 1).idpicking; //column id picking
+                        seq = bacaDGV.seq;
+                        
+                        System.out.println("BacaIDPicking : " + seq + " | ID : " + bacaDGV.idpicking);
+                        startPicking = true; StatusBaca = false;// isThreadRun = false;
+                        
+                        try
+                        {
+                            //reset seq 4x1 = D0 to 1
+                            PLCModbus.master.writeSingleRegister(1, 1 - 1, 1);
+                            //set seq 4x2 = D1
+                            PLCModbus.master.writeSingleRegister(1, 2 - 1, bacaDGV.idpicking);
+                            
+                        } 
+                        catch (Exception ex) {
+                        }
+                        
                     };
                     new Thread(task).start();
                     startReading();
-                    
-                } catch (Exception ex) {
+
+                } catch (Exception ex)
+                {
                     System.out.println("error | " + ex);
                 }
             }
         }
     }
 
-    private void startReading(){
+    private int seq;
+    private int LastBacaIDPicking = 0;
+    private boolean StatusBaca = false;
+    private Timer timer1;
+    private boolean LastState = false;
+
+    private void startReading()
+    {
         // Start the background thread, periodically read the data in the plc, and then display in the curve control
-        if (!isThreadRun) {
+        if (!isThreadRun)
+        {
             isThreadRun = true;
-            startPicking = true;
             //loop
             timerloop = new Timer();
-            myTask = new TimerTask() {
+            myTask = new TimerTask()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     //ThreadReadServer      
-                    if(PLCModbus.StatusKoneksi == true){
-                        while(isThreadRun){
-                            try{
+                    if (PLCModbus.StatusKoneksi == true)
+                    {
+                        while (isThreadRun)
+                        {
+                            try
+                            {
                                 Thread.sleep(200);
-                                if(startPicking){
-                                    
-                                    
-                                    Runnable task = () -> {
-                                        System.out.println("working 1...");
-                                        //handleRequest(connection);
+                                if (startPicking)
+                                {
+                                    // Read Seq and Write to Y output
+                                    Runnable task = () ->
+                                    {
+                                        //System.out.println("working 1...");
+
+                                        try
+                                        {
+                                            int[] val = PLCModbus.master.readHoldingRegisters(1, 1 - 1, 1);
+                                            seq = val[0];
+
+                                            //System.out.println("StatusBaca : " + StatusBaca);
+                                            
+                                            if ((seq > 0) && (StatusBaca == false))
+                                            {
+                                                StatusBaca = true;
+                                                // start timer task to blink Y output
+                                                Timer1_tick(true);
+                                            }
+
+                                            else if ((seq == 0) && (StatusBaca == true))
+                                            {
+                                                StatusBaca = false;
+                                                // stop timer task to blink Y output
+                                                Timer1_tick(false);
+                                            }
+                                        } catch (Exception ex)
+                                        {
+
+                                        }
+
+                                        if (bacaDGV.idpicking != LastBacaIDPicking)
+                                        {
+                                            try
+                                            {
+                                                //Console.WriteLine("ID now : " + bacaDGV.IDpicking + " | Last ID : " + LastBacaIDPicking);
+                                                PLCModbus.master.writeSingleCoil(1, LastBacaIDPicking -1, false);
+                                            } catch (Exception ex)
+                                            {
+                                            }
+                                        }
+                                        LastBacaIDPicking = bacaDGV.idpicking;
+
                                     };
                                     new Thread(task).start();
-                                    
-                                    Runnable task1 = () -> {
-                                        System.out.println("working 2...");
-                                        //handleRequest(connection);
+
+                                    // Read Seq and read X input
+                                    Runnable task1 = () ->
+                                    {
+                                        try
+                                        {
+                                            //System.out.println("working 2...");
+                                            //handleRequest(connection);
+                                            int[] ReadD0 = PLCModbus.master.readHoldingRegisters(1, 1 - 1, 1);
+
+                                            //System.out.println("isThreadRun : " + isThreadRun);
+                                            
+                                            if (isThreadRun)
+                                            {
+                                                boolean[] ReadXInput = PLCModbus.master.readCoils(1, (1000 + bacaDGV.idpicking) -1, 1);
+                                                //System.out.println("baca 1000" + bacaDGV.idpicking);
+                                                boolean value = ReadXInput[0];
+                                                int valueD0 = ReadD0[0];
+                                                
+                                                if (value)
+                                                {
+                                                    //jika tombol ditekan maka inc 1 di 4x2 = D1
+
+                                                    //Inc Seq +1
+                                                    PLCModbus.master.writeSingleRegister(1, (1)-1, valueD0 + 1);
+                                                    seq = seq + 1;
+                                                    //kemudian baca id picking berdasarkan row di gridview dan taro disini
+                                                    PLCModbus.master.writeSingleRegister(1, (2)-1, seq + 1);
+                                                    
+                                                    if ((seq -1) < TblView2.getItems().size())
+                                                    {
+                                                        //bacaDGV.IDpicking = Convert.ToInt16(dataGridView1.Rows[seq - 1].Cells[3].Value); //column Seq
+                                                        
+                                                        bacaDGV.idpicking = bacaTable(seq-1).idpicking;
+                                                                
+                                                        //highlight to row seq -1
+                                                        setRowTable(seq -1);
+                                                    }
+                                                    else
+                                                    {
+                                                        //setRowTable(0);
+                                                        setClearRowSelectionTable();
+                                                        
+                                                        startPicking = false;
+                                                        Timer1_tick(false);
+                                                    }
+
+                                                }
+                                                
+                                            }
+
+                                        } catch (Exception ex)
+                                        {
+                                        }
+
                                     };
                                     new Thread(task1).start();
-                                    
+
                                 }
-                            }
-                            catch(Exception e){
-                                
+                            } catch (Exception e)
+                            {
+
                             }
                         }
                     }
-                    
-                    
+
                 }
             };
             timerloop.schedule(myTask, 100, 100);
-            
-            
-        } else {
+        }
+        /*
+        else
+        {
             isThreadRun = false;
         }
+        */
     }
-    
-        
-    
+
+    private Timer timer1_loop;
+    private TimerTask timer1_task;
+
+    private void Timer1_tick(boolean start) throws ModbusProtocolException
+    {
+        System.out.println("timer jalan");
+        if (start)
+        {
+            timer1_loop = new Timer();
+            timer1_task = new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    //System.out.println("timer loop");
+
+                    if ((seq > 0) && (startPicking == true))
+                    {
+                        try
+                        {
+                            PLCModbus.master.writeSingleCoil(1, bacaDGV.idpicking -1, LastState);
+                        } catch (Exception ex)
+                        {
+                        }
+                        LastState = !LastState;
+                        //System.out.println("LastState = " + LastState);
+                    }
+                }
+            };
+            timer1_loop.schedule(timer1_task, 500,500);
+        }
+        else
+        {
+            try
+            {
+                PLCModbus.master.writeSingleCoil(1, bacaDGV.idpicking -1, false);
+            } catch (Exception ex)
+            {
+            } 
+            System.out.println("batal");
+            timer1_loop.cancel();
+        }
+
+    }
+
     // get value from selected cell
-    private listTable bacaTable(int row) {
+    private listTable bacaTable(int row)
+    {
         int setSeq = (Integer) TblView2.getColumns().get(0).getCellObservableValue(row).getValue();
         String setPartNo = TblView2.getColumns().get(1).getCellObservableValue(row).getValue().toString();
         String setPartName = TblView2.getColumns().get(2).getCellObservableValue(row).getValue().toString();
@@ -210,36 +401,45 @@ public class FXMLPickStockController implements Initializable {
     }
 
     // Set row table selection
-    private void setRowTable(Integer row) {
+    private void setRowTable(Integer row)
+    {
         Platform.runLater(()
-                -> {
+                ->
+        {
             TblView2.requestFocus();
             TblView2.getSelectionModel().select(row);
             TblView2.scrollTo(row);
         });
     }
+    
+    
 
     // Clear row table selection
-    private void setClearRowSelectionTable() {
-        Platform.runLater(() -> {
+    private void setClearRowSelectionTable()
+    {
+        Platform.runLater(() ->
+        {
             TblView2.getSelectionModel().clearSelection();
         });
     }
 
     // get cell value by column and row
-    public String getValueAt(int column, int row) {
+    public String getValueAt(int column, int row)
+    {
         return TblView2.getColumns().get(column).getCellObservableValue(row).getValue().toString();
     }
 
-    private class listTable {
+    private class listTable
+    {
 
-        private final int seq;
-        private final String partNo;
-        private final String partName;
-        private final int idpicking;
-        private final int qty;
+        private int seq;
+        private String partNo;
+        private String partName;
+        private int idpicking;
+        private int qty;
 
-        public listTable(int seq, String partNo, String partName, int idpicking, int qty) {
+        public listTable(int seq, String partNo, String partName, int idpicking, int qty)
+        {
             this.seq = seq;
             this.partNo = partNo;
             this.partName = partName;
@@ -247,23 +447,33 @@ public class FXMLPickStockController implements Initializable {
             this.qty = qty;
         }
 
-        public Integer getSeq() {
+        private listTable()
+        {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        public Integer getSeq()
+        {
             return this.seq;
         }
 
-        public String getPartNo() {
+        public String getPartNo()
+        {
             return this.partNo;
         }
 
-        public String getPartName() {
+        public String getPartName()
+        {
             return this.partName;
         }
 
-        public Integer getIdpicking() {
+        public Integer getIdpicking()
+        {
             return this.idpicking;
         }
 
-        public Integer getQty() {
+        public Integer getQty()
+        {
             return this.qty;
         }
     }
