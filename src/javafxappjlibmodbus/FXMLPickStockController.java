@@ -71,14 +71,11 @@ public class FXMLPickStockController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        //Timer1_tick(true);
         bacaDGV = new listTable();
-        // TODO
+        // disable tableview
         TblView2.setEditable(false);
         TblView2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        //disable row selection
-        //TblView2.setSelectionModel(null);
-        //TblView2.setDisable(true);
+        
 
         //TableColumn kol_id = new TableColumn("id");
         //kol_id.setMaxWidth( 1f * Integer.MAX_VALUE * 10 ); // 10% width
@@ -108,7 +105,7 @@ public class FXMLPickStockController implements Initializable
         kol_qty.setCellValueFactory(new PropertyValueFactory<Table, String>("qty"));
         kol_qty.setSortable(false);
 
-        //TblView2.getColumns().addAll(kol_id,kol_seq,kol_partno,kol_partname,kol_idpicking,kol_qty);
+        // add all column to tableview
         TblView2.getColumns().addAll(kol_seq, kol_partno, kol_partname, kol_idpicking, kol_qty);
     }
 
@@ -226,15 +223,12 @@ public class FXMLPickStockController implements Initializable
                                     // Read Seq and Write to Y output
                                     Runnable task = () ->
                                     {
-                                        //System.out.println("working 1...");
-
                                         try
                                         {
+                                            // Baca Seq di 4x1/D0
                                             int[] val = PLCModbus.master.readHoldingRegisters(1, 1 - 1, 1);
                                             seq = val[0];
 
-                                            //System.out.println("StatusBaca : " + StatusBaca);
-                                            
                                             if ((seq > 0) && (StatusBaca == false))
                                             {
                                                 StatusBaca = true;
@@ -257,6 +251,7 @@ public class FXMLPickStockController implements Initializable
                                         {
                                             try
                                             {
+                                                //set off last id picking Y output
                                                 PLCModbus.master.writeSingleCoil(1, LastBacaIDPicking -1, false);
                                             } catch (Exception ex)
                                             {
@@ -278,19 +273,18 @@ public class FXMLPickStockController implements Initializable
                                             
                                             if (isThreadRun)
                                             {
+                                                // Baca X input berdasarkan id picking
                                                 boolean[] ReadXInput = PLCModbus.master.readCoils(1, (1000 + bacaDGV.idpicking) -1, 1);
                                                 //System.out.println("baca 1000" + bacaDGV.idpicking);
                                                 boolean value = ReadXInput[0];
                                                 int valueD0 = ReadD0[0];
                                                 
+                                                //jika tombol ditekan maka increment 1 di 4x1 = D0
                                                 if (value)
                                                 {
-                                                    //jika tombol ditekan maka inc 1 di 4x2 = D1
-
                                                     //Inc Seq +1
                                                     PLCModbus.master.writeSingleRegister(1, (1)-1, valueD0 + 1);
                                                     seq = seq + 1;
-                                                    
                                                     
                                                     TxtSelectedSeqNo.setText(String.valueOf(bacaTable(seq -1).getSeq()));
                                                     TxtSelectedPartNo.setText(String.valueOf(bacaTable(seq -1).getPartNo()));
@@ -299,7 +293,7 @@ public class FXMLPickStockController implements Initializable
                                                     TxtSelectedQty.setText(String.valueOf(bacaTable(seq -1).getQty()));
                                                     
                                                     
-                                                    //kemudian baca id picking berdasarkan row di gridview dan taro disini
+                                                    //kemudian incerement seq
                                                     PLCModbus.master.writeSingleRegister(1, (2)-1, seq + 1);
                                                     
                                                     if ((seq -1) < TblView2.getItems().size())
@@ -379,7 +373,7 @@ public class FXMLPickStockController implements Initializable
         {
             try
             {
-                PLCModbus.master.writeSingleCoil(1, bacaDGV.idpicking -1, false);
+                PLCModbus.master.writeSingleCoil(1, LastBacaIDPicking -1, false);
             } catch (Exception ex)
             {
             } 
