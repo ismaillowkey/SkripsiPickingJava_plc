@@ -116,8 +116,9 @@ public class FXMLPickStockController implements Initializable
     private void TxtBarcodeScan_KeyPressed(KeyEvent event)
     {
         // Jika enter ditekan
-        if (event.getCode().equals(KeyCode.ENTER))
+        if (event.getCode().equals(KeyCode.ENTER) && (startPicking == false))
         {
+            //jika data barcode yang dimasukkan kosong
             if (TxtBarcodeScan.getText().isEmpty())
             {
                 System.out.println("Data barcode kosong");
@@ -132,6 +133,8 @@ public class FXMLPickStockController implements Initializable
                 {
                     LblStatusBarcode.setText("...");
 
+                    TxtBarcodeScan.setDisable(true);
+                    
                     Runnable task = () ->
                     {
                         //open session
@@ -147,7 +150,6 @@ public class FXMLPickStockController implements Initializable
                         TblView2.setItems(data);
                         
                         
-
                         TxtSelectedSeqNo.setText(String.valueOf(bacaTable(0).getSeq()));
                         TxtSelectedPartNo.setText(String.valueOf(bacaTable(0).getPartNo()));
                         TxtSelectedPartName.setText(String.valueOf(bacaTable(0).getPartName()));
@@ -255,7 +257,6 @@ public class FXMLPickStockController implements Initializable
                                         {
                                             try
                                             {
-                                                //Console.WriteLine("ID now : " + bacaDGV.IDpicking + " | Last ID : " + LastBacaIDPicking);
                                                 PLCModbus.master.writeSingleCoil(1, LastBacaIDPicking -1, false);
                                             } catch (Exception ex)
                                             {
@@ -271,11 +272,9 @@ public class FXMLPickStockController implements Initializable
                                     {
                                         try
                                         {
-                                            //System.out.println("working 2...");
-                                            //handleRequest(connection);
+                                            // Baca seq 
                                             int[] ReadD0 = PLCModbus.master.readHoldingRegisters(1, 1 - 1, 1);
 
-                                            //System.out.println("isThreadRun : " + isThreadRun);
                                             
                                             if (isThreadRun)
                                             {
@@ -291,6 +290,15 @@ public class FXMLPickStockController implements Initializable
                                                     //Inc Seq +1
                                                     PLCModbus.master.writeSingleRegister(1, (1)-1, valueD0 + 1);
                                                     seq = seq + 1;
+                                                    
+                                                    
+                                                    TxtSelectedSeqNo.setText(String.valueOf(bacaTable(seq -1).getSeq()));
+                                                    TxtSelectedPartNo.setText(String.valueOf(bacaTable(seq -1).getPartNo()));
+                                                    TxtSelectedPartName.setText(String.valueOf(bacaTable(seq -1).getPartName()));
+                                                    TxtSelectedIDPicking.setText(String.valueOf(bacaTable(seq -1).getIdpicking()));
+                                                    TxtSelectedQty.setText(String.valueOf(bacaTable(seq -1).getQty()));
+                                                    
+                                                    
                                                     //kemudian baca id picking berdasarkan row di gridview dan taro disini
                                                     PLCModbus.master.writeSingleRegister(1, (2)-1, seq + 1);
                                                     
@@ -305,15 +313,13 @@ public class FXMLPickStockController implements Initializable
                                                     }
                                                     else
                                                     {
-                                                        //setRowTable(0);
+                                                        //Selesai picking
                                                         setClearRowSelectionTable();
-                                                        
                                                         startPicking = false;
                                                         Timer1_tick(false);
+                                                        TxtBarcodeScan.setDisable(false);
                                                     }
-
                                                 }
-                                                
                                             }
 
                                         } catch (Exception ex)
@@ -326,11 +332,9 @@ public class FXMLPickStockController implements Initializable
                                 }
                             } catch (Exception e)
                             {
-
                             }
                         }
                     }
-
                 }
             };
             timerloop.schedule(myTask, 100, 100);
@@ -357,8 +361,6 @@ public class FXMLPickStockController implements Initializable
                 @Override
                 public void run()
                 {
-                    //System.out.println("timer loop");
-
                     if ((seq > 0) && (startPicking == true))
                     {
                         try
@@ -368,7 +370,6 @@ public class FXMLPickStockController implements Initializable
                         {
                         }
                         LastState = !LastState;
-                        //System.out.println("LastState = " + LastState);
                     }
                 }
             };
@@ -382,7 +383,6 @@ public class FXMLPickStockController implements Initializable
             } catch (Exception ex)
             {
             } 
-            System.out.println("batal");
             timer1_loop.cancel();
         }
 
@@ -403,8 +403,7 @@ public class FXMLPickStockController implements Initializable
     // Set row table selection
     private void setRowTable(Integer row)
     {
-        Platform.runLater(()
-                ->
+        Platform.runLater(() ->
         {
             TblView2.requestFocus();
             TblView2.getSelectionModel().select(row);
