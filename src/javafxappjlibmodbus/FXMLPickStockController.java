@@ -103,8 +103,19 @@ public class FXMLPickStockController implements Initializable
 
         // add all column to tableview
         TblView2.getColumns().addAll(kol_seq, kol_partno, kol_partname, kol_idpicking, kol_qty);
+        setFocusTxtBarcodeScan();
     }
 
+    private void setFocusTxtBarcodeScan(){
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run()
+            {
+                TxtBarcodeScan.requestFocus();
+            }
+        });
+    }
+    
     @FXML
     private void TxtBarcodeScan_KeyPressed(KeyEvent event)
     {
@@ -114,7 +125,7 @@ public class FXMLPickStockController implements Initializable
             //jika data barcode yang dimasukkan kosong
             if (TxtBarcodeScan.getText().isEmpty())
             {
-                System.out.println("Data barcode kosong");
+                //System.out.println("Data barcode kosong");
                 Platform.runLater(() ->
                 {
                     LblStatusBarcode.setText("Isi Barcode kosong");
@@ -161,7 +172,6 @@ public class FXMLPickStockController implements Initializable
                         bacaDGV.idpicking = bacaTable(seq - 1).idpicking; //column id picking
                         seq = bacaDGV.seq;
                         
-                        System.out.println("BacaIDPicking : " + seq + " | ID : " + bacaDGV.idpicking);
                         startPicking = true; StatusBaca = false;// isThreadRun = false;
                         
                         try
@@ -308,12 +318,12 @@ public class FXMLPickStockController implements Initializable
                                                     }
                                                     else
                                                     {
-                                                        System.out.println("stop");
                                                         //Selesai picking
                                                         setClearRowSelectionTable();
                                                         startPicking = false;
                                                         Timer1_tick(false);
                                                         TxtBarcodeScan.setDisable(false);
+                                                        setFocusTxtBarcodeScan();
                                                     }
                                                 }
                                             }
