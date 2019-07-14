@@ -185,7 +185,7 @@ public class FXMLDocumentController implements Initializable {
             }
             
             if (startup){
-                if (PLCModbus.dev_list[i].toString().equals("/dev/ttyUSB0")){
+                if (PLCModbus.dev_list[i].toString().equals("/dev/ttyUSB0") || PLCModbus.dev_list[i].toString().equals("COM1")){
                     btnConnect.fire();
                     //System.out.println("ok");
                 }

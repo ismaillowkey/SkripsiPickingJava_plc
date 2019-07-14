@@ -5,16 +5,12 @@
  */
 package javafxappjlibmodbus;
 
-import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
-import com.intelligt.modbus.jlibmodbus.exception.ModbusNumberException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusProtocolException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -170,10 +166,13 @@ public class FXMLPickStockController implements Initializable
                         
                         try
                         {
-                            //reset seq 4x1 = D0 to 1
+                            //reset seq 4x1 = R0 to 1
                             PLCModbus.master.writeSingleRegister(1, 1 - 1, 1);
-                            //set seq 4x2 = D1
+                            //set seq 4x2 = R1
                             PLCModbus.master.writeSingleRegister(1, 2 - 1, bacaDGV.idpicking);
+                            for (int i=1;i<=20;i++){
+                                    PLCModbus.master.writeSingleCoil(1, i -1, false);
+                            }
                             
                         } 
                         catch (Exception ex) {
@@ -225,7 +224,7 @@ public class FXMLPickStockController implements Initializable
                                     {
                                         try
                                         {
-                                            // Baca Seq di 4x1/D0
+                                            // Baca Seq di 4x1/R0
                                             int[] val = PLCModbus.master.readHoldingRegisters(1, 1 - 1, 1);
                                             seq = val[0];
 
@@ -267,46 +266,50 @@ public class FXMLPickStockController implements Initializable
                                     {
                                         try
                                         {
-                                            // Baca seq 
-                                            int[] ReadD0 = PLCModbus.master.readHoldingRegisters(1, 1 - 1, 1);
+                                            // Baca seq (Register R0)
+                                            int[] ReadR0 = PLCModbus.master.readHoldingRegisters(1, 1 - 1, 1);
 
                                             
                                             if (isThreadRun)
                                             {
                                                 // Baca X input berdasarkan id picking
                                                 boolean[] ReadXInput = PLCModbus.master.readCoils(1, (1000 + bacaDGV.idpicking) -1, 1);
-                                                //System.out.println("baca 1000" + bacaDGV.idpicking);
+                                                //Store in variable value
                                                 boolean value = ReadXInput[0];
-                                                int valueD0 = ReadD0[0];
                                                 
-                                                //jika tombol ditekan maka increment 1 di 4x1 = D0
+                                                int valueR0 = ReadR0[0];
+                                                
+                                                //jika tombol ditekan maka increment 1 di 4x1/R0
                                                 if (value)
                                                 {
-                                                    //Inc Seq +1
-                                                    PLCModbus.master.writeSingleRegister(1, (1)-1, valueD0 + 1);
-                                                    seq = seq + 1;
+                                                    System.out.println(bacaDGV.idpicking - 1 + " || tombol ditekan");
+                                                    //Inc Seq + 1 4x1/R0
+                                                    //seq = seq + 1;
+                                                    valueR0 = valueR0 +1;
+                                                    seq = valueR0;
                                                     
-                                                    TxtSelectedSeqNo.setText(String.valueOf(bacaTable(seq -1).getSeq()));
-                                                    TxtSelectedPartNo.setText(String.valueOf(bacaTable(seq -1).getPartNo()));
-                                                    TxtSelectedPartName.setText(String.valueOf(bacaTable(seq -1).getPartName()));
-                                                    TxtSelectedIDPicking.setText(String.valueOf(bacaTable(seq -1).getIdpicking()));
-                                                    TxtSelectedQty.setText(String.valueOf(bacaTable(seq -1).getQty()));
-                                                    
-                                                    
-                                                    //kemudian incerement seq
-                                                    PLCModbus.master.writeSingleRegister(1, (2)-1, seq + 1);
-                                                    
-                                                    if ((seq -1) < TblView2.getItems().size())
+                                                    // Jika seq < jumlah row tableview maka lanjut seq
+                                                    if (seq <= TblView2.getItems().size())
                                                     {
-                                                        //bacaDGV.IDpicking = Convert.ToInt16(dataGridView1.Rows[seq - 1].Cells[3].Value); //column Seq
-                                                        
-                                                        bacaDGV.idpicking = bacaTable(seq-1).idpicking;
-                                                                
+                                                        TxtSelectedSeqNo.setText(String.valueOf(bacaTable(seq - 1).getSeq()));
+                                                        TxtSelectedPartNo.setText(String.valueOf(bacaTable(seq - 1).getPartNo()));
+                                                        TxtSelectedPartName.setText(String.valueOf(bacaTable(seq - 1).getPartName()));
+                                                        TxtSelectedIDPicking.setText(String.valueOf(bacaTable(seq - 1).getIdpicking()));
+                                                        TxtSelectedQty.setText(String.valueOf(bacaTable(seq - 1).getQty()));
+
+                                                        // inc and write to 4x1/R0
+                                                        PLCModbus.master.writeSingleRegister(1, 1 - 1, seq);
+                                                    
+                                                        // write id picking to 4x2/R1
+                                                        bacaDGV.idpicking = bacaTable(seq - 1).idpicking;
+                                                        PLCModbus.master.writeSingleRegister(1, 2 - 1,bacaDGV.idpicking);
+
                                                         //highlight to row seq -1
-                                                        setRowTable(seq -1);
+                                                        setRowTable(seq - 1);
                                                     }
                                                     else
                                                     {
+                                                        System.out.println("stop");
                                                         //Selesai picking
                                                         setClearRowSelectionTable();
                                                         startPicking = false;
