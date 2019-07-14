@@ -323,7 +323,12 @@ public class FXMLPickStockController implements Initializable
                                                         startPicking = false;
                                                         Timer1_tick(false);
                                                         TxtBarcodeScan.setDisable(false);
+                                                        
                                                         setFocusTxtBarcodeScan();
+                                                        Platform.runLater(() ->
+                                                        {
+                                                            TxtBarcodeScan.setText("");
+                                                        });
                                                     }
                                                 }
                                             }

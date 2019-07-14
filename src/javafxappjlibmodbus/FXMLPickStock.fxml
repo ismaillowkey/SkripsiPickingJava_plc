@@ -12,7 +12,7 @@
       <TableView fx:id="TblView2" layoutX="150.0" layoutY="238.0" prefHeight="406.0" prefWidth="940.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />
       <Pane layoutX="150.0" layoutY="14.0" prefHeight="89.0" prefWidth="940.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <Label layoutX="36.0" layoutY="15.0" prefHeight="51.0" prefWidth="208.0" style="-fx-font-size: 30;" text="Barcode Scan" />
+            <Label layoutX="25.0" layoutY="15.0" prefHeight="51.0" prefWidth="208.0" style="-fx-font-size: 30;" text="Barcode Scan" />
             <TextField fx:id="TxtBarcodeScan" layoutX="239.0" layoutY="14.0" onKeyPressed="#TxtBarcodeScan_KeyPressed" prefHeight="65.0" prefWidth="533.0" style="-fx-font-size: 30;" />
             <Button layoutX="802.0" layoutY="14.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="124.0" text="Enter">
                <font>
