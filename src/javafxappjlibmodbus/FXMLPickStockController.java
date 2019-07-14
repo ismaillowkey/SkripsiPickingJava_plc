@@ -282,7 +282,6 @@ public class FXMLPickStockController implements Initializable
                                                 //jika tombol ditekan maka increment 1 di 4x1/R0
                                                 if (value)
                                                 {
-                                                    System.out.println(bacaDGV.idpicking - 1 + " || tombol ditekan");
                                                     //Inc Seq + 1 4x1/R0
                                                     //seq = seq + 1;
                                                     valueR0 = valueR0 +1;
@@ -349,7 +348,6 @@ public class FXMLPickStockController implements Initializable
 
     private void Timer1_tick(boolean start) throws ModbusProtocolException
     {
-        System.out.println("timer jalan");
         if (start)
         {
             timer1_loop = new Timer();
