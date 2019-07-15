@@ -85,7 +85,7 @@ public class FXMLDocumentController implements Initializable {
     static Timer timer1;
     static TimerTask myTask;
     static Stage stage;
-    public static Pane newPane;
+    //public static Pane newPane;
     private Label lblStatusBarcode;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -243,7 +243,7 @@ public class FXMLDocumentController implements Initializable {
     
     public void loadHome(){
         try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLHome.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLHome.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     paneCOM.getParent().toFront();
@@ -258,7 +258,7 @@ public class FXMLDocumentController implements Initializable {
     private void menuInStock_Clicked(ActionEvent event)  {
         if ((PLCModbus.LastOpenPane).equals("home")){
             try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "instock";
@@ -282,7 +282,7 @@ public class FXMLDocumentController implements Initializable {
                 // Change Pane
                 //Pane newPane;
                 try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "instock";
@@ -298,7 +298,7 @@ public class FXMLDocumentController implements Initializable {
     private void menuOutStock_Clicked(ActionEvent event) {
         if ((PLCModbus.LastOpenPane).equals("home")){
             try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "outstock";
@@ -322,7 +322,7 @@ public class FXMLDocumentController implements Initializable {
                 // Change Pane
                 //Pane newPane;
                 try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "outstock";
@@ -338,7 +338,7 @@ public class FXMLDocumentController implements Initializable {
     private void menuLayout_Clicked(ActionEvent event) {
         if ((PLCModbus.LastOpenPane).equals("home")){
             try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "instock";
@@ -362,7 +362,7 @@ public class FXMLDocumentController implements Initializable {
                 // Change Pane
                 //Pane newPane;
                 try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "layout";
@@ -378,7 +378,7 @@ public class FXMLDocumentController implements Initializable {
     private void menuSettings_Clicked(ActionEvent event) {
          if ((PLCModbus.LastOpenPane).equals("home")){
             try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "instock";
@@ -402,7 +402,7 @@ public class FXMLDocumentController implements Initializable {
                 // Change Pane
                 //Pane newPane;
                 try {
-                    newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
+                    Pane newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
                     mainPane.getChildren().clear();
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "setting";
