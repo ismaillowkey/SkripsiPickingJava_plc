@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="610.0" prefWidth="1240.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="javafxappjlibmodbus.FXMLLayoutController">
+<AnchorPane id="AnchorPane" prefHeight="610.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLLayoutController">
    <children>
-      <Label layoutX="69.0" layoutY="38.0" text="menu Layout" />
+      <ImageView fitHeight="571.0" fitWidth="1028.0" layoutX="116.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pic/method.png" />
+         </image></ImageView>
    </children>
 </AnchorPane>

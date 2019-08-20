@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.persistence.Convert;
 import jfxtras.styles.jmetro8.JMetro;
 
 
@@ -32,12 +33,10 @@ public class JavaFXAppJlibModbus extends Application {
         final RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
         final FileLock fileLock = randomAccessFile.getChannel().tryLock();
 
-        System.out.print(fileLock == null);
         if (fileLock == null) {
             Platform.exit();
         }
 
-        
         stage.initStyle(StageStyle.UNDECORATED);
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         new JMetro(JMetro.Style.LIGHT).applyTheme(root);  

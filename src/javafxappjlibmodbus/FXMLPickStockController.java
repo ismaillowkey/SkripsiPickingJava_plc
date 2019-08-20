@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -25,6 +26,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import static javafxappjlibmodbus.FXMLDocumentController.stage;
 import javax.persistence.Table;
 import org.hibernate.Query;
 
@@ -52,7 +56,11 @@ public class FXMLPickStockController implements Initializable
     private TextField TxtSelectedQty;
     @FXML
     private Label LblStatusBarcode;
-
+    @FXML
+    private Button btnEnter;
+    @FXML
+    private AnchorPane formpickstock;
+    
     private Timer timerloop;
     private TimerTask myTask;
 
@@ -61,9 +69,8 @@ public class FXMLPickStockController implements Initializable
     private listTable bacaDGV; // for process
     private boolean isThreadRun = false;
     private boolean startPicking = false;
-    private boolean NetworkIsOK = false;
-    @FXML
-    private Button btnEnter;
+    //private boolean NetworkIsOK = false;
+    
 
     /**
      * Initializes the controller class.
@@ -126,7 +133,19 @@ public class FXMLPickStockController implements Initializable
         // Jika enter ditekan
         if (event.getCode().equals(KeyCode.ENTER) && (startPicking == false))
         {
-            MulaiPicking();
+            if (PLCModbus.StatusKoneksi)
+            {
+                MulaiPicking();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                stage = (Stage)formpickstock.getScene().getWindow();
+                alert.initOwner(stage);
+                alert.setHeaderText("Connect to PLC first");
+                alert.showAndWait();
+            }
         }
     }
     
@@ -136,7 +155,18 @@ public class FXMLPickStockController implements Initializable
         // Jika enter ditekan
         if (startPicking == false)
         {
-            MulaiPicking();
+            if (PLCModbus.StatusKoneksi)
+            {
+                MulaiPicking();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                stage = (Stage)formpickstock.getScene().getWindow();
+                alert.setHeaderText("Connect to PLC first");
+                alert.showAndWait();
+            }
         }
     }
     

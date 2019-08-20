@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="690.0" maxWidth="1240.0" prefHeight="690.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLPickStockController">
+<AnchorPane id="AnchorPane" fx:id="formpickstock" maxHeight="690.0" maxWidth="1240.0" prefHeight="690.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLPickStockController">
    <children>
       <TableView fx:id="TblView2" layoutX="150.0" layoutY="238.0" prefHeight="406.0" prefWidth="940.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />
       <Pane layoutX="150.0" layoutY="14.0" prefHeight="89.0" prefWidth="940.0" style="-fx-border-color: black; -fx-border-radius: 10;">

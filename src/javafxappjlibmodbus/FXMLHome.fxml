@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -8,6 +9,20 @@
 
 <AnchorPane id="AnchorPane" prefHeight="610.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLHomeController">
    <children>
-      <Label layoutX="185.0" layoutY="106.0" text="menu Home" />
+      <Label layoutX="526.0" layoutY="47.0" text="Alat Skripsi">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="261.0" layoutY="150.0" text="Picking System dengan Raspberry pi&#10;dan PLC" textAlignment="CENTER">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="521.0" layoutY="465.0" text="Ismail Noor Effendi&#10;15-20-201-045&#10;Teknik Elektro" textAlignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

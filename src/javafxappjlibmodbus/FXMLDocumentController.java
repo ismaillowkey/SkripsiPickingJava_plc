@@ -152,6 +152,7 @@ public class FXMLDocumentController implements Initializable {
                  System.out.println("set : " + e);
                  Alert alert = new Alert(Alert.AlertType.ERROR);
                  alert.setTitle("Error");
+                 stage = (Stage)form1.getScene().getWindow();
                  alert.setHeaderText("Cannot Connect to " + (String) cmbPort.getValue() + "\r\n" + e.getMessage() );
                  alert.showAndWait();
              }
@@ -407,7 +408,7 @@ public class FXMLDocumentController implements Initializable {
                     mainPane.getChildren().add(newPane);
                     PLCModbus.LastOpenPane = "setting";
                 } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
+                    //System.out.println(ex.getMessage());
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
