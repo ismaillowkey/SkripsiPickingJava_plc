@@ -220,7 +220,6 @@ public class FXMLDocumentController implements Initializable {
         stage.setIconified(true);
     }
 
-    
     // Menu left
     @FXML
     private void menuHome_Clicked(ActionEvent event) {
