@@ -21,7 +21,8 @@ public class PLCModbus {
     
     public static ModbusMaster master;
     public static boolean mprocess;
-
+    public static boolean pickingIsRunning;
+    
     public static String LastOpenPane;
     
     // hibernate

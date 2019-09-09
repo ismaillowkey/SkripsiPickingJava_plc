@@ -70,7 +70,7 @@ public class FXMLPickStockController implements Initializable
     private boolean isThreadRun = false;
     private boolean startPicking = false;
     //private boolean NetworkIsOK = false;
-    
+    private boolean checkData = false;
 
     /**
      * Initializes the controller class.
@@ -191,58 +191,88 @@ public class FXMLPickStockController implements Initializable
                 TxtBarcodeScan.setDisable(true);
                 btnEnter.setDisable(true);
 
+                
                 Runnable task = () ->
                 {
+                    Platform.runLater(() ->
+                        {
+                            LblStatusBarcode.setText("Get data from database");
+                        });
                     //open session
                     PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
                     // create hql
-                    String hql = "from Partlist";
+                    String hql = "from Partlist where PartKanban = :id ";
                     Query q = PLCModbus.session_mysql.createQuery(hql);
+                    q.setParameter("id", TxtBarcodeScan.getText());
+                    
+                   
                     // fill to pojo
                     List<pojos.Partlist> lst = q.list();
-                    ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst);
-
-                    //binding to tableview
-                    TblView2.setItems(data);
-
-                    TxtSelectedSeqNo.setText(String.valueOf(bacaTable(0).getSeq()));
-                    TxtSelectedPartNo.setText(String.valueOf(bacaTable(0).getPartNo()));
-                    TxtSelectedPartName.setText(String.valueOf(bacaTable(0).getPartName()));
-                    TxtSelectedIDPicking.setText(String.valueOf(bacaTable(0).getIdpicking()));
-                    TxtSelectedQty.setText(String.valueOf(bacaTable(0).getQty()));
-
-                    //highlight to row 0
-                    setRowTable(0);
-                    bacaDGV.seq = 1; //set to seq 1 (start from 1)
-                    LastBacaIDPicking = 1;
-
-                    seq = bacaDGV.seq;
-
-                    bacaDGV.seq = bacaTable(seq - 1).seq; //column Seq
-                    bacaDGV.idpicking = bacaTable(seq - 1).idpicking; //column id picking
-                    seq = bacaDGV.seq;
-
-                    startPicking = true;
-                    StatusBaca = false;// isThreadRun = false;
-
-                    try
-                    {
-                        //reset seq 4x1 = R0 to 1
-                        PLCModbus.master.writeSingleRegister(1, 1 - 1, 1);
-                        //set seq 4x2 = R1
-                        PLCModbus.master.writeSingleRegister(1, 2 - 1, bacaDGV.idpicking);
-                        for (int i = 1; i <= 20; i++)
+                    
+                    if (lst.size() == 0){
+                       
+                        Platform.runLater(() ->
                         {
-                            PLCModbus.master.writeSingleCoil(1, i - 1, false);
-                        }
+                            LblStatusBarcode.setText("Part Kanban Tidak Ditemukan");
+                        });
+                        TxtBarcodeScan.setDisable(false);
+                        btnEnter.setDisable(false);
+                        checkData = false;
+                    }
+                    else{
+                        checkData = true;
+                        ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst);
 
-                    } catch (Exception ex)
-                    {
+                        //binding to tableview
+                        TblView2.setItems(data);
+
+                        TxtSelectedSeqNo.setText(String.valueOf(bacaTable(0).getSeq()));
+                        TxtSelectedPartNo.setText(String.valueOf(bacaTable(0).getPartNo()));
+                        TxtSelectedPartName.setText(String.valueOf(bacaTable(0).getPartName()));
+                        TxtSelectedIDPicking.setText(String.valueOf(bacaTable(0).getIdpicking()));
+                        TxtSelectedQty.setText(String.valueOf(bacaTable(0).getQty()));
+
+                        //highlight to row 0
+                        setRowTable(0);
+                        bacaDGV.seq = 1; //set to seq 1 (start from 1)
+                        LastBacaIDPicking = 1;
+
+                        seq = bacaDGV.seq;
+
+                        bacaDGV.seq = bacaTable(seq - 1).seq; //column Seq
+                        bacaDGV.idpicking = bacaTable(seq - 1).idpicking; //column id picking
+                        seq = bacaDGV.seq;
+
+                        startPicking = true;
+                        StatusBaca = false;// isThreadRun = false;
+
+                        try
+                        {
+                            //reset seq 4x1 = R0 to 1
+                            PLCModbus.master.writeSingleRegister(1, 1 - 1, 1);
+                            //set seq 4x2 = R1
+                            PLCModbus.master.writeSingleRegister(1, 2 - 1, bacaDGV.idpicking);
+                            for (int i = 1; i <= 20; i++)
+                            {
+                                PLCModbus.master.writeSingleCoil(1, i - 1, false);
+                            }
+
+                        } catch (Exception ex)
+                        {
+                        }
+                        startReading();
+                        PLCModbus.pickingIsRunning = true;
+                        Platform.runLater(() ->
+                        {
+                            LblStatusBarcode.setText("Running...");
+                        });
                     }
 
                 };
                 new Thread(task).start();
-                startReading();
+                
+                
+                
 
             } catch (Exception ex)
             {
@@ -378,10 +408,15 @@ public class FXMLPickStockController implements Initializable
                                                         btnEnter.setDisable(false);
                                                         
                                                         setFocusTxtBarcodeScan();
+                                                        
+                                                        PLCModbus.pickingIsRunning = false;
                                                         Platform.runLater(() ->
                                                         {
                                                             TxtBarcodeScan.setText("");
+                                                            LblStatusBarcode.setText("Done");
                                                         });
+                                                        
+                                                        
                                                     }
                                                 }
                                             }

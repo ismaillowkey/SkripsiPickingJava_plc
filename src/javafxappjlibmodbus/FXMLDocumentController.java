@@ -197,19 +197,33 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void btnDisconnect_clicked(ActionEvent event) {
-        try{
-            timer1.cancel(); myTask.cancel();
-            PLCModbus.DisconnectToSlave();
+        if (PLCModbus.pickingIsRunning)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            stage = (Stage) form1.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText("Cannot Disconnect while picking is running");
+            alert.showAndWait();
         }
-        catch(Exception ex){
-            
+        else
+        {
+            try
+            {
+                timer1.cancel();
+                myTask.cancel();
+                PLCModbus.DisconnectToSlave();
+            } catch (Exception ex)
+            {
+
+            }
+            cmbPort.setDisable(false);
+            btnConnect.setDisable(false);
+            btnDisconnect.setDisable(true);
+            btnRefresh.setDisable(false);
+            showStatus("...");
         }
         
-        cmbPort.setDisable(false);
-        btnConnect.setDisable(false);
-        btnDisconnect.setDisable(true);
-        btnRefresh.setDisable(false);
-        showStatus("...");
     }
 
     @FXML
