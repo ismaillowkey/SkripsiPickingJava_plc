@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -13,5 +14,21 @@
          <image>
             <Image url="@../pic/method.png" />
          </image></ImageView>
+      <ToggleButton fx:id="ToggID1" layoutX="750.0" layoutY="146.0" mnemonicParsing="false" onAction="#ToggID1_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <ToggleButton fx:id="ToggID2" layoutX="833.0" layoutY="146.0" mnemonicParsing="false" onAction="#ToggID2_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <ToggleButton fx:id="ToggID3" layoutX="919.0" layoutY="146.0" mnemonicParsing="false" onAction="#ToggID3_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <ToggleButton fx:id="ToggID4" layoutX="1010.0" layoutY="146.0" mnemonicParsing="false" onAction="#ToggID4_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <ToggleButton fx:id="ToggID5" layoutX="750.0" layoutY="276.0" mnemonicParsing="false" onAction="#ToggID5_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <ToggleButton fx:id="ToggID6" layoutX="843.0" layoutY="276.0" mnemonicParsing="false" onAction="#ToggID6_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <ToggleButton fx:id="ToggID7" layoutX="927.0" layoutY="283.0" mnemonicParsing="false" onAction="#ToggID7_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <ToggleButton fx:id="ToggID8" layoutX="1017.0" layoutY="276.0" mnemonicParsing="false" onAction="#ToggID8_Changed" prefHeight="29.0" prefWidth="50.0" style="-fx-background-color: transparen;" />
+      <Circle fx:id="LampID1" fill="#ff1f1f" layoutX="775.0" layoutY="161.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="LampID2" fill="#ff1f1f" layoutX="858.0" layoutY="161.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="LampID3" fill="#ff1f1f" layoutX="944.0" layoutY="161.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="LampID4" fill="#ff1f1f" layoutX="1036.0" layoutY="161.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="LampID5" fill="#ff1f1f" layoutX="776.0" layoutY="293.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="LampID6" fill="#ff1f1f" layoutX="867.0" layoutY="293.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="LampID7" fill="#ff1f1f" layoutX="952.0" layoutY="294.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="LampID8" fill="#ff1f1f" layoutX="1041.0" layoutY="293.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>
