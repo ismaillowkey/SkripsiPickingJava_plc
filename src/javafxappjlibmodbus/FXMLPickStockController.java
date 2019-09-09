@@ -150,7 +150,7 @@ public class FXMLPickStockController implements Initializable
     }
     
     @FXML
-    private void btnEnter_click(ActionEvent event)
+    private void btnEnter_click(ActionEvent event) throws ModbusProtocolException
     {
         // Jika enter ditekan
         if (startPicking == false)
@@ -164,9 +164,30 @@ public class FXMLPickStockController implements Initializable
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 stage = (Stage)formpickstock.getScene().getWindow();
+                alert.initOwner(stage);
                 alert.setHeaderText("Connect to PLC first");
                 alert.showAndWait();
             }
+        }
+        //cance picking
+        else{
+            //Selesai picking
+            setClearRowSelectionTable(); 
+            startPicking = false;
+            Timer1_tick(false);
+            try { PLCModbus.master.writeSingleCoil(1, LastBacaIDPicking -1, false); } catch (Exception ex) { } 
+            TxtBarcodeScan.setDisable(false);
+            btnEnter.setText("Enter");
+            //btnEnter.setDisable(false);
+
+            setFocusTxtBarcodeScan();
+
+            PLCModbus.pickingIsRunning = false;
+            Platform.runLater(() ->
+            {
+                TxtBarcodeScan.setText("");
+                LblStatusBarcode.setText("Canceled By User");
+            });
         }
     }
     
@@ -189,7 +210,8 @@ public class FXMLPickStockController implements Initializable
                 LblStatusBarcode.setText("...");
 
                 TxtBarcodeScan.setDisable(true);
-                btnEnter.setDisable(true);
+                btnEnter.setText("Cancel");
+                //btnEnter.setDisable(true);
 
                 
                 Runnable task = () ->
@@ -216,7 +238,8 @@ public class FXMLPickStockController implements Initializable
                             LblStatusBarcode.setText("Part Kanban Tidak Ditemukan");
                         });
                         TxtBarcodeScan.setDisable(false);
-                        btnEnter.setDisable(false);
+                        //btnEnter.setDisable(false);
+                        btnEnter.setText("Enter");
                         checkData = false;
                     }
                     else{
@@ -405,7 +428,8 @@ public class FXMLPickStockController implements Initializable
                                                         startPicking = false;
                                                         Timer1_tick(false);
                                                         TxtBarcodeScan.setDisable(false);
-                                                        btnEnter.setDisable(false);
+                                                        btnEnter.setText("Enter");
+                                                        //btnEnter.setDisable(false);
                                                         
                                                         setFocusTxtBarcodeScan();
                                                         
@@ -490,10 +514,11 @@ public class FXMLPickStockController implements Initializable
     private listTable bacaTable(int row)
     {
         int setSeq = (Integer) TblView2.getColumns().get(0).getCellObservableValue(row).getValue();
-        String setPartNo = TblView2.getColumns().get(1).getCellObservableValue(row).getValue().toString();
-        String setPartName = TblView2.getColumns().get(2).getCellObservableValue(row).getValue().toString();
+        String setPartNo = ""; String setPartName = ""; int setQty = 1;
+        try { setPartNo = TblView2.getColumns().get(1).getCellObservableValue(row).getValue().toString(); } catch(Exception ex){ }
+        try { setPartName = TblView2.getColumns().get(2).getCellObservableValue(row).getValue().toString(); } catch(Exception ex){ }
         int setIdpicking = (Integer) TblView2.getColumns().get(3).getCellObservableValue(row).getValue();
-        int setQty = (Integer) TblView2.getColumns().get(4).getCellObservableValue(row).getValue();
+        try { setQty = (Integer) TblView2.getColumns().get(4).getCellObservableValue(row).getValue(); } catch(Exception ex){ }
         listTable lst = new listTable(setSeq, setPartNo, setPartName, setIdpicking, setQty);
         return lst;
     }
