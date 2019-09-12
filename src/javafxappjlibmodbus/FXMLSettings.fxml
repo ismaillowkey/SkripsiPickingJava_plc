@@ -1,14 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="610.0" prefWidth="1240.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="javafxappjlibmodbus.FXMLSettingsController">
+<AnchorPane id="AnchorPane" prefHeight="610.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLSettingsController">
    <children>
-      <Label layoutX="76.0" layoutY="68.0" text="menu Settings" />
+      <Pane layoutX="125.0" layoutY="172.0" prefHeight="205.0" prefWidth="333.0" style="-fx-border-color: black;">
+         <children>
+            <Label layoutX="3.0" layoutY="-1.0" text="Mysql Setting">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="43.0" prefHeight="30.0" prefWidth="113.0" text="IP Mysql">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="68.0" prefHeight="30.0" prefWidth="121.0" text="Port Mysql">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="95.0" prefHeight="30.0" prefWidth="96.0" text="Username">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="122.0" prefHeight="30.0" prefWidth="96.0" text="Password">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="111.0" layoutY="43.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="43.0" text=": 127.0.0.1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="68.0" text=": 3306">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="97.0" text=": root">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="122.0" text=": root">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="150.0" prefHeight="30.0" prefWidth="96.0" text="Version">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="150.0" text=": 8.0.17">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="647.0" layoutY="105.0" prefHeight="338.0" prefWidth="385.0" style="-fx-border-color: black;">
+         <children>
+            <Label layoutX="2.0" text="PLC Setting">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="30.0" text="PLC Merek">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="66.0" text="PLC Type">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="103.0" text="PLC Port">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="139.0" text="PLC Protocol">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="179.0" text="Baudrate">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="216.0" text="Data Bit">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="257.0" text="Parity">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="287.0" text="Stop Bit">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="189.0" layoutY="30.0" text=": FATEK">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="189.0" layoutY="66.0" text=": Fbs-20MA">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="189.0" layoutY="103.0" text=": Port 2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="190.0" layoutY="139.0" text=": Modbus RTU Slave">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="190.0" layoutY="179.0" text=": 115200">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="190.0" layoutY="216.0" text=": 8">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="190.0" layoutY="257.0" text=": None">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="190.0" layoutY="287.0" text=": 1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

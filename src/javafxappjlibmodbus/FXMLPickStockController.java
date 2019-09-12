@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import static javafxappjlibmodbus.FXMLDocumentController.stage;
 import javax.persistence.Table;
 import org.hibernate.Query;
+import org.sql2o.*;
 
 /**
  * FXML Controller class
@@ -43,7 +44,7 @@ public class FXMLPickStockController implements Initializable
     @FXML
     private TextField TxtBarcodeScan;
     @FXML
-    private TableView<pojos.Partlist> TblView2;
+    private TableView<dao.partlistpicking> TblView2;
     @FXML
     private TextField TxtSelectedSeqNo;
     @FXML
@@ -65,7 +66,7 @@ public class FXMLPickStockController implements Initializable
     private TimerTask myTask;
 
     private Thread thread = null;
-    private listTable lsttable; // for get value of tableview
+   // private listTable lsttable; // for get value of tableview
     private listTable bacaDGV; // for process
     private boolean isThreadRun = false;
     private boolean startPicking = false;
@@ -102,9 +103,9 @@ public class FXMLPickStockController implements Initializable
         kol_partname.setCellValueFactory(new PropertyValueFactory<Table, String>("partName"));
         kol_partname.setSortable(false);
 
-        TableColumn kol_idpicking = new TableColumn("idpicking");
+        TableColumn kol_idpicking = new TableColumn("IDpicking");
         kol_idpicking.setMaxWidth(1f * Integer.MAX_VALUE * 10); // 30% width
-        kol_idpicking.setCellValueFactory(new PropertyValueFactory<Table, String>("idpicking"));
+        kol_idpicking.setCellValueFactory(new PropertyValueFactory<Table, String>("IDpicking"));
         kol_idpicking.setSortable(false);
 
         TableColumn kol_qty = new TableColumn("qty");
@@ -221,15 +222,18 @@ public class FXMLPickStockController implements Initializable
                             LblStatusBarcode.setText("Get data from database");
                         });
                     //open session
-                    PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
+                    //PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
                     // create hql
-                    String hql = "from Partlist where PartKanban = :id ";
-                    Query q = PLCModbus.session_mysql.createQuery(hql);
-                    q.setParameter("id", TxtBarcodeScan.getText());
+                    //String hql = "from Partlist where PartKanban = :id ";
+                    //Query q = PLCModbus.session_mysql.createQuery(hql);
+                    //q.setParameter("id", TxtBarcodeScan.getText());
                     
                    
                     // fill to pojo
-                    List<pojos.Partlist> lst = q.list();
+                    //List<pojos.Partlist> lst = q.list();
+                    
+                    List<dao.partlistpicking> lst = getAllData(TxtBarcodeScan.getText());
+                    
                     
                     if (lst.size() == 0){
                        
@@ -244,7 +248,7 @@ public class FXMLPickStockController implements Initializable
                     }
                     else{
                         checkData = true;
-                        ObservableList<pojos.Partlist> data = FXCollections.observableArrayList(lst);
+                        ObservableList<dao.partlistpicking> data = FXCollections.observableArrayList(lst);
 
                         //binding to tableview
                         TblView2.setItems(data);
@@ -263,7 +267,7 @@ public class FXMLPickStockController implements Initializable
                         seq = bacaDGV.seq;
 
                         bacaDGV.seq = bacaTable(seq - 1).seq; //column Seq
-                        bacaDGV.idpicking = bacaTable(seq - 1).idpicking; //column id picking
+                        bacaDGV.IDpicking = bacaTable(seq - 1).IDpicking; //column id picking
                         seq = bacaDGV.seq;
 
                         startPicking = true;
@@ -274,7 +278,7 @@ public class FXMLPickStockController implements Initializable
                             //reset seq 4x1 = R0 to 1
                             PLCModbus.master.writeSingleRegister(1, 1 - 1, 1);
                             //set seq 4x2 = R1
-                            PLCModbus.master.writeSingleRegister(1, 2 - 1, bacaDGV.idpicking);
+                            PLCModbus.master.writeSingleRegister(1, 2 - 1, bacaDGV.IDpicking);
                             for (int i = 1; i <= 20; i++)
                             {
                                 PLCModbus.master.writeSingleCoil(1, i - 1, false);
@@ -303,7 +307,20 @@ public class FXMLPickStockController implements Initializable
             }
         }    
     }
-            
+         
+    private List<dao.partlistpicking> getAllData(String kodebarcode){
+        String sql = "SELECT seq, PartNo, PartName, IDpicking,qty, QtyStock " + 
+                     "FROM partlist_picking " +
+                     "INNER JOIN partno_picking USING(IDpicking) " +
+                     "INNER JOIN stock_picking using (partno) " +
+                     "WHERE PartKanban = :kodebarcode ORDER BY seq";
+        
+        try(Connection con = dao.conf.sql2o.open()) {
+        return con.createQuery(sql)
+            .addParameter("kodebarcode", kodebarcode)
+            .executeAndFetch(dao.partlistpicking.class);
+    }
+    }
 
     private int seq;
     private int LastBacaIDPicking = 0;
@@ -361,7 +378,7 @@ public class FXMLPickStockController implements Initializable
 
                                         }
 
-                                        if (bacaDGV.idpicking != LastBacaIDPicking)
+                                        if (bacaDGV.IDpicking != LastBacaIDPicking)
                                         {
                                             try
                                             {
@@ -371,7 +388,7 @@ public class FXMLPickStockController implements Initializable
                                             {
                                             }
                                         }
-                                        LastBacaIDPicking = bacaDGV.idpicking;
+                                        LastBacaIDPicking = bacaDGV.IDpicking;
 
                                     };
                                     new Thread(task).start();
@@ -388,7 +405,7 @@ public class FXMLPickStockController implements Initializable
                                             if (isThreadRun)
                                             {
                                                 // Baca X input berdasarkan id picking
-                                                boolean[] ReadXInput = PLCModbus.master.readCoils(1, (1000 + bacaDGV.idpicking) -1, 1);
+                                                boolean[] ReadXInput = PLCModbus.master.readCoils(1, (1000 + bacaDGV.IDpicking) -1, 1);
                                                 //Store in variable value
                                                 boolean value = ReadXInput[0];
                                                 
@@ -415,8 +432,8 @@ public class FXMLPickStockController implements Initializable
                                                         PLCModbus.master.writeSingleRegister(1, 1 - 1, seq);
                                                     
                                                         // write id picking to 4x2/R1
-                                                        bacaDGV.idpicking = bacaTable(seq - 1).idpicking;
-                                                        PLCModbus.master.writeSingleRegister(1, 2 - 1,bacaDGV.idpicking);
+                                                        bacaDGV.IDpicking = bacaTable(seq - 1).IDpicking;
+                                                        PLCModbus.master.writeSingleRegister(1, 2 - 1,bacaDGV.IDpicking);
 
                                                         //highlight to row seq -1
                                                         setRowTable(seq - 1);
@@ -487,7 +504,7 @@ public class FXMLPickStockController implements Initializable
                     {
                         try
                         {
-                            PLCModbus.master.writeSingleCoil(1, bacaDGV.idpicking -1, LastState);
+                            PLCModbus.master.writeSingleCoil(1, bacaDGV.IDpicking -1, LastState);
                         } catch (Exception ex)
                         {
                         }
@@ -559,7 +576,7 @@ public class FXMLPickStockController implements Initializable
         private int seq;
         private String partNo;
         private String partName;
-        private int idpicking;
+        private int IDpicking;
         private int qty;
 
         public listTable(int seq, String partNo, String partName, int idpicking, int qty)
@@ -567,7 +584,7 @@ public class FXMLPickStockController implements Initializable
             this.seq = seq;
             this.partNo = partNo;
             this.partName = partName;
-            this.idpicking = idpicking;
+            this.IDpicking = idpicking;
             this.qty = qty;
         }
 
@@ -593,7 +610,7 @@ public class FXMLPickStockController implements Initializable
 
         public Integer getIdpicking()
         {
-            return this.idpicking;
+            return this.IDpicking;
         }
 
         public Integer getQty()
