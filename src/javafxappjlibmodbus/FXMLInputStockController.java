@@ -137,16 +137,14 @@ public class FXMLInputStockController implements Initializable
             if (txtPartNo.getText().isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
                 Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data PartNo tidak boleh kosong");
-                alert.showAndWait();
+                alert.setHeaderText("Data PartNo tidak boleh kosong"); alert.showAndWait();
                 return;
             }
             
             if (txtQtyStock.getText().isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
                 Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data Qty tidak boleh kosong");
-                alert.showAndWait();
+                alert.setHeaderText("Data Qty tidak boleh kosong");  alert.showAndWait();
                 return;
             }
             
@@ -155,13 +153,9 @@ public class FXMLInputStockController implements Initializable
             loadAll();
         } catch (Exception ex)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            Stage stage;
-            stage = (Stage) fxInputstock.getScene().getWindow();
-            alert.initOwner(stage);
-            alert.setHeaderText(ex.getMessage());
-            alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputstock.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
         }
     }
 
@@ -173,16 +167,14 @@ public class FXMLInputStockController implements Initializable
             if (txtPartNo.getText().isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
                 Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data PartNo tidak boleh kosong");
-                alert.showAndWait();
+                alert.setHeaderText("Data PartNo tidak boleh kosong"); alert.showAndWait();
                 return;
             }
             
             if (txtQtyStock.getText().isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
                 Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data Qty tidak boleh kosong");
-                alert.showAndWait();
+                alert.setHeaderText("Data Qty tidak boleh kosong"); alert.showAndWait();
                 return;
             }
             
@@ -190,13 +182,9 @@ public class FXMLInputStockController implements Initializable
             loadAll();
         } catch (Exception ex)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            Stage stage;
-            stage = (Stage) fxInputstock.getScene().getWindow();
-            alert.initOwner(stage);
-            alert.setHeaderText(ex.getMessage());
-            alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputstock.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
         }
     }
 
@@ -208,8 +196,7 @@ public class FXMLInputStockController implements Initializable
             if (txtPartNo.getText().isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
                 Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data PartNo tidak boleh kosong");
-                alert.showAndWait();
+                alert.setHeaderText("Data PartNo tidak boleh kosong"); alert.showAndWait();
                 return;
             }
             
@@ -219,13 +206,9 @@ public class FXMLInputStockController implements Initializable
             loadAll();
         } catch (Exception ex)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            Stage stage;
-            stage = (Stage) fxInputstock.getScene().getWindow();
-            alert.initOwner(stage);
-            alert.setHeaderText(ex.getMessage());
-            alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputstock.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
         }
     }
 
