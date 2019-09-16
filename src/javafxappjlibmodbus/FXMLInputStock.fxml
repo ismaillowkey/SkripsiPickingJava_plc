@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLInputStockController">
+   <children>
+      <Button fx:id="BtnLoad" layoutX="38.0" layoutY="38.0" mnemonicParsing="false" onAction="#BtnLoad_clicked" prefHeight="67.0" prefWidth="82.0" text="Load&#10;All" textAlignment="CENTER" />
+      <TableView fx:id="TblStock" layoutX="131.0" layoutY="33.0" onMouseClicked="#TblStock_mouseclicked" prefHeight="514.0" prefWidth="526.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />
+      <Label layoutX="690.0" layoutY="59.0" text="PartNo" />
+      <Label layoutX="690.0" layoutY="107.0" text="Qty Stock" />
+      <TextField fx:id="txtPartNo" layoutX="770.0" layoutY="55.0" />
+      <TextField fx:id="txtQtyStock" layoutX="770.0" layoutY="103.0" />
+      <Button fx:id="btnAdd" layoutX="770.0" layoutY="159.0" mnemonicParsing="false" onAction="#btnAdd_clicked" prefHeight="25.0" prefWidth="149.0" text="Add" />
+      <Button fx:id="btnUpdate" layoutX="770.0" layoutY="198.0" mnemonicParsing="false" onAction="#btnUpdate_clicked" prefHeight="25.0" prefWidth="149.0" text="Update" />
+      <Button fx:id="btnDelete" layoutX="770.0" layoutY="241.0" mnemonicParsing="false" onAction="#btnDelete_clicked" prefHeight="25.0" prefWidth="149.0" text="Delete" />
+   </children>
+</AnchorPane>

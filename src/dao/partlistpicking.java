@@ -18,7 +18,7 @@ public class partlistpicking
         private int qty;
         private int QtyStock;
         
-        public void partlistpicking(int Iseq,String IPartNo,String IPartName,int IIDpicking,int Iqty,int IQtyStock){
+        public partlistpicking(int Iseq,String IPartNo,String IPartName,int IIDpicking,int Iqty,int IQtyStock){
             this.seq = Iseq;
             this.PartNo = IPartNo;
             this.PartName = IPartName;
@@ -27,7 +27,7 @@ public class partlistpicking
             this.QtyStock = IQtyStock;
         }
         
-        public void partlistpicking(){
+        public partlistpicking(){
             
         }
         

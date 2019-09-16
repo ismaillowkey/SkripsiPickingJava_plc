@@ -5,9 +5,17 @@
  */
 package javafxappjlibmodbus;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -16,12 +24,53 @@ import javafx.fxml.Initializable;
  */
 public class FXMLInStockController implements Initializable {
 
+    @FXML
+    private Button BtnInputPartKanban;
+    @FXML
+    private Button BtnInputRack;
+    @FXML
+    private Button BtnInputStock;
+    @FXML
+    private Pane PaneInput;
+
+    static Pane PaneInputPartKanban,PaneInputRack,PaneInputStock;
+        
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try
+        {
+            // TODO
+            PaneInputPartKanban = FXMLLoader.load(getClass().getResource("FXMLInputPartKanban.fxml"));
+            PaneInputRack = FXMLLoader.load(getClass().getResource("FXMLInputRack.fxml"));
+            PaneInputStock = FXMLLoader.load(getClass().getResource("FXMLInputStock.fxml"));
+        } catch (IOException ex)
+        {
+            Logger.getLogger(FXMLInStockController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
+
+    @FXML
+    private void BtnInputPartKanban_Clicked(ActionEvent event)
+    {
+        PaneInput.getChildren().clear();
+        PaneInput.getChildren().add(PaneInputPartKanban);
+    }
+
+    @FXML
+    private void BtnInputRack_Clicked(ActionEvent event)
+    {
+        PaneInput.getChildren().clear();
+        PaneInput.getChildren().add(PaneInputRack);
+    }
+
+    @FXML
+    private void BtnInputStock_Clicked(ActionEvent event)
+    {
+        PaneInput.getChildren().clear();
+        PaneInput.getChildren().add(PaneInputStock);
+    }
     
 }

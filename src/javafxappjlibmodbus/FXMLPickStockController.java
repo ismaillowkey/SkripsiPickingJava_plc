@@ -319,7 +319,7 @@ public class FXMLPickStockController implements Initializable
         return con.createQuery(sql)
             .addParameter("kodebarcode", kodebarcode)
             .executeAndFetch(dao.partlistpicking.class);
-    }
+        }
     }
 
     private int seq;
