@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLInputStockController">
+<AnchorPane id="AnchorPane" fx:id="fxInputstock" prefHeight="570.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLInputStockController">
    <children>
       <Button fx:id="BtnLoad" layoutX="38.0" layoutY="38.0" mnemonicParsing="false" onAction="#BtnLoad_clicked" prefHeight="67.0" prefWidth="82.0" text="Load&#10;All" textAlignment="CENTER" />
       <TableView fx:id="TblStock" layoutX="131.0" layoutY="33.0" onMouseClicked="#TblStock_mouseclicked" prefHeight="514.0" prefWidth="526.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />

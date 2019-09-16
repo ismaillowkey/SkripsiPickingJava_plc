@@ -166,6 +166,7 @@ public class FXMLDocumentController implements Initializable {
                  Alert alert = new Alert(Alert.AlertType.ERROR);
                  alert.setTitle("Error");
                  stage = (Stage)form1.getScene().getWindow();
+                 alert.initOwner(stage);
                  alert.setHeaderText("Cannot Connect to " + (String) cmbPort.getValue() + "\r\n" + e.getMessage() );
                  alert.showAndWait();
              }

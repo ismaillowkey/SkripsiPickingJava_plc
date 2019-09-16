@@ -14,12 +14,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import static javafxappjlibmodbus.FXMLDocumentController.stage;
 import static javafxappjlibmodbus.FXMLInputRackController.getRow;
 import javax.persistence.Table;
 import org.sql2o.Connection;
@@ -48,6 +52,8 @@ public class FXMLInputStockController implements Initializable
     private Button btnDelete;
 
     private static int getRow = 0;
+    @FXML
+    private AnchorPane fxInputstock;
     /**
      * Initializes the controller class.
      */
@@ -76,12 +82,15 @@ public class FXMLInputStockController implements Initializable
     @FXML
     private void BtnLoad_clicked(ActionEvent event)
     {
+        loadAll();
+    }
+
+    private void loadAll(){
         List<dao.stock_picking> lst = getAllData();
         ObservableList<dao.stock_picking> data = FXCollections.observableArrayList(lst);
         TblStock.setItems(data);
         setRowTable(0); getValueData(0);
     }
-
     
     private List<dao.stock_picking> getAllData(){
         String sql = "select PartNo,QtyStock from stock_picking";
@@ -123,22 +132,213 @@ public class FXMLInputStockController implements Initializable
     @FXML
     private void btnAdd_clicked(ActionEvent event)
     {
+        try
+        {
+            if (txtPartNo.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data PartNo tidak boleh kosong");
+                alert.showAndWait();
+                return;
+            }
+            
+            if (txtQtyStock.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data Qty tidak boleh kosong");
+                alert.showAndWait();
+                return;
+            }
+            
+            dao.stock_picking lst = new dao.stock_picking(txtPartNo.getText(), Integer.valueOf(txtQtyStock.getText()));
+            insertPartStock(lst);
+            loadAll();
+        } catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void btnUpdate_clicked(ActionEvent event)
     {
+        try
+        {
+            if (txtPartNo.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data PartNo tidak boleh kosong");
+                alert.showAndWait();
+                return;
+            }
+            
+            if (txtQtyStock.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data Qty tidak boleh kosong");
+                alert.showAndWait();
+                return;
+            }
+            
+            updatePartStock(txtPartNo.getText(), Integer.valueOf(txtQtyStock.getText()));
+            loadAll();
+        } catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void btnDelete_clicked(ActionEvent event)
     {
+        try
+        {
+            if (txtPartNo.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputstock.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data PartNo tidak boleh kosong");
+                alert.showAndWait();
+                return;
+            }
+            
+            getRow = TblStock.getSelectionModel().getSelectedIndex();
+            
+            deletePartStock(String.valueOf(bacaTable(getRow).getPartNo()));
+            loadAll();
+        } catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void TblStock_mouseclicked(MouseEvent event)
     {
         getValueData();
+    }
+    
+    // insert
+    public void insertPartStock(dao.stock_picking stockpick)
+    {
+        final String insertQuery
+                = "INSERT INTO `stock_picking`(`PartNo`, `QtyStock`) VALUES (:partno, :qty)";
+       
+
+        try (Connection con = dao.conf.sql2o.beginTransaction())
+        {
+            con.createQuery(insertQuery)
+                    .addParameter("partno", stockpick.getPartNo())
+                    .addParameter("qty", stockpick.getQtyStock())
+                    .executeUpdate();
+            // Remember to call commit() when a transaction is opened,
+            // default is to roll back.
+            con.commit();
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText("Done");
+            alert.showAndWait();
+        }
+        catch(Exception ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage());
+            alert.showAndWait();
+        }
+    }
+    
+    // update
+    public void updatePartStock(String IpartNo,int Iqtystock)
+    {
+        final String updateQuery
+                = "UPDATE `stock_picking` SET `QtyStock` = :qtystock WHERE `PartNo` = :partno ";
+       
+
+        try (Connection con = dao.conf.sql2o.beginTransaction())
+        {
+            con.createQuery(updateQuery)
+                    .addParameter("qtystock", Iqtystock)
+                    .addParameter("partno", IpartNo)
+                    .executeUpdate();
+            // Remember to call commit() when a transaction is opened,
+            // default is to roll back.
+            con.commit();
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText("Done");
+            alert.showAndWait();
+        }
+        catch(Exception ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage());
+            alert.showAndWait();
+        }
+    }
+    
+    // delete
+    public void deletePartStock(String IpartNo)
+    {
+        final String deleteQuery
+                = "DELETE from stock_picking WHERE `PartNo` = :partno ";
+       
+        try (Connection con = dao.conf.sql2o.beginTransaction())
+        {
+            con.createQuery(deleteQuery)
+                    .addParameter("partno", IpartNo)
+                    .executeUpdate();
+            // Remember to call commit() when a transaction is opened,
+            // default is to roll back.
+            con.commit();
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText("Done");
+            alert.showAndWait();
+        }
+        catch(Exception ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage;
+            stage = (Stage) fxInputstock.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage());
+            alert.showAndWait();
+        }
     }
     
     private void getValueData(){
