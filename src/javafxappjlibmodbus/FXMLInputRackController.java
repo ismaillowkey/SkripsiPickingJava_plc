@@ -267,7 +267,7 @@ public class FXMLInputRackController implements Initializable
     }
  
     
-       public void insertPartStock(dao.partno_picking partnopick)
+    public void insertPartStock(dao.partno_picking partnopick)
     {
         final String insertQuery
                 = "INSERT INTO `partno_picking`(`IDpicking`, `PartNo`, `PartName`) VALUES (:idpicking, :partno, :partname);";
