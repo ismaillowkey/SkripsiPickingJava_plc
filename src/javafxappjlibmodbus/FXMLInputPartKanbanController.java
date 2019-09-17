@@ -15,12 +15,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javax.persistence.Table;
 import org.sql2o.Connection;
 
@@ -54,6 +57,8 @@ public class FXMLInputPartKanbanController implements Initializable
     private static int getRowPartKanban = 0;
     private static String SelectedPartKanban ="";
     private static int getRowAllKanban = 0;
+    @FXML
+    private AnchorPane fxInputPartKanban;
     /**
      * Initializes the controller class.
      */
@@ -115,6 +120,16 @@ public class FXMLInputPartKanbanController implements Initializable
         setRowTablePartKanban(0); getValueDataPartKanban();
     }
     
+    private void loadAllKanban(){
+        getRowPartKanban =  TblPartKanban.getSelectionModel().getSelectedIndex();
+        SelectedPartKanban = TblPartKanban.getColumns().get(0).getCellObservableValue(getRowPartKanban).getValue().toString();  
+        
+        List<tblAllKanban> lst = getDataByPartKanban(SelectedPartKanban);
+        ObservableList<tblAllKanban> data = FXCollections.observableArrayList(lst);
+        TblAllKanban.setItems(data);
+        setRowTableAllKanban(0);
+    }
+    
 
 
     @FXML
@@ -138,19 +153,100 @@ public class FXMLInputPartKanbanController implements Initializable
     }
 
     @FXML
-    private void btnDelete_clicked(ActionEvent event)
+    private void btnAdd_clicked(ActionEvent event)
     {
+        try
+        {
+            if (txtSeq.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data Seq tidak boleh kosong"); alert.showAndWait();
+                return;
+            }
+            
+            if (txtIDpicking.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data ID Picking tidak boleh kosong");  alert.showAndWait();
+                return;
+            }
+            
+            if (txtQty.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data Qty tidak boleh kosong");  alert.showAndWait();
+                return;
+            }
+            
+            dao.partlistpicking lst = new dao.partlistpicking(SelectedPartKanban, Integer.valueOf(txtSeq.getText()),Integer.valueOf(txtIDpicking.getText()),Integer.valueOf(txtQty.getText()));
+            insertAllPartKanban(lst);
+            loadAllKanban();
+        } catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
+        }
     }
-
+    
     @FXML
     private void btnUpdate_clicked(ActionEvent event)
     {
+        try
+        {
+             if (txtSeq.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data Seq tidak boleh kosong"); alert.showAndWait();
+                return;
+            }
+            
+            if (txtQty.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data Qty tidak boleh kosong"); alert.showAndWait();
+                return;
+            }
+            
+            dao.partlistpicking lst = new dao.partlistpicking(SelectedPartKanban, Integer.valueOf(txtSeq.getText()), Integer.valueOf(txtIDpicking.getText()), Integer.valueOf(txtQty.getText()));
+            
+            updateAllPartKanban(lst);
+            loadAllKanban();
+        } catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    private void btnDelete_clicked(ActionEvent event)
+    {
+        try
+        {
+            if (txtSeq.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
+                alert.setHeaderText("Data Id picking tidak boleh kosong"); alert.showAndWait();
+                return;
+            }
+            
+            getRowAllKanban = TblAllKanban.getSelectionModel().getSelectedIndex();
+            
+            deleteAllPartKanban(SelectedPartKanban, Integer.valueOf(bacaTable(getRowAllKanban).getSeq()));
+            loadAllKanban();
+        } catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
+        }
     }
 
-    @FXML
-    private void btnAdd_clicked(ActionEvent event)
-    {
-    }
+    
+
+    
     
     private void getValueData(int row){
          txtSeq.setText(String.valueOf(bacaTable(row).getSeq()));
@@ -216,6 +312,95 @@ public class FXMLInputPartKanbanController implements Initializable
                 .executeAndFetch(tblAllKanban.class);
         }
     }
+    
+    
+    //insert
+    public void insertAllPartKanban(dao.partlistpicking partlistpicking)
+    {
+        final String insertQuery
+                = "INSERT INTO`partlist_picking`(`PartKanban`, `Seq`, `IDpicking`, `Qty`) VALUES (:partkanban, :seq,:idpicking, :qty);";
+       
+        try (Connection con = dao.conf.sql2o.beginTransaction())
+        {
+            con.createQuery(insertQuery)
+                    .addParameter("partkanban", partlistpicking.getPartKanban())
+                    .addParameter("seq", partlistpicking.getSeq())
+                    .addParameter("idpicking", partlistpicking.getIDpicking())
+                    .addParameter("qty", partlistpicking.getQty())
+                    .executeUpdate();
+            // Remember to call commit() when a transaction is opened,
+            // default is to roll back.
+            con.commit();
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION); alert.setTitle("Information");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText("Done"); alert.showAndWait();
+        }
+        catch(Exception ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
+        }
+    }
+    
+    // update
+    public void updateAllPartKanban(dao.partlistpicking partlistpicking)
+    {
+        final String updateQuery
+                = "UPDATE `partlist_picking` SET `idpicking` = :idpicking , `qty` = :qty WHERE `PartKanban` = :partkanban and `Seq` = :seq";
+       
+        try (Connection con = dao.conf.sql2o.beginTransaction())
+        {
+            con.createQuery(updateQuery)
+                    .addParameter("idpicking", partlistpicking.getIDpicking())
+                    .addParameter("qty", partlistpicking.getQty())
+                    .addParameter("partkanban", partlistpicking.getPartKanban())
+                    .addParameter("seq", partlistpicking.getSeq())
+                    .executeUpdate();
+            
+            // Remember to call commit() when a transaction is opened,
+            // default is to roll back.
+            con.commit();
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION); alert.setTitle("Information");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText("Done"); alert.showAndWait();
+        }
+        catch(Exception ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
+        }
+    }
+    
+    // delete
+    public void deleteAllPartKanban(String IPartkanban,int ISeq)
+    {
+        final String deleteQuery
+                = "DELETE from `partlist_picking` WHERE `PartKanban` = :partkanban and `Seq` = :seq ";
+       
+        try (Connection con = dao.conf.sql2o.beginTransaction())
+        {
+            con.createQuery(deleteQuery)
+                    .addParameter("partkanban", IPartkanban)
+                    .addParameter("seq", ISeq)
+                    .executeUpdate();
+            
+            // Remember to call commit() when a transaction is opened,
+            // default is to roll back.
+            con.commit();
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION); alert.setTitle("Information");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage);
+            alert.setHeaderText("Done"); alert.showAndWait();
+        }
+        catch(Exception ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow(); alert.initOwner(stage); 
+            alert.setHeaderText(ex.getMessage()); alert.showAndWait();
+        }
+    }
+    
     
     public class tblAllKanban{
         private int Seq;

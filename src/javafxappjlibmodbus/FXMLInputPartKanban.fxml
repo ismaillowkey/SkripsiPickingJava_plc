@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLInputPartKanbanController">
+<AnchorPane id="AnchorPane" fx:id="fxInputPartKanban" prefHeight="570.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLInputPartKanbanController">
    <children>
       <Button fx:id="BtnLoad" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#BtnLoad_clicked" prefHeight="81.0" prefWidth="109.0" text="Load&#10;Part&#10;Kanban" textAlignment="CENTER" />
       <TableView fx:id="TblPartKanban" layoutX="135.0" layoutY="14.0" onMouseClicked="#TblPartKanban_mouseclicked" prefHeight="514.0" prefWidth="171.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />

@@ -266,13 +266,12 @@ public class FXMLInputRackController implements Initializable
         }
     }
  
-    
+    // add
     public void insertPartStock(dao.partno_picking partnopick)
     {
         final String insertQuery
                 = "INSERT INTO `partno_picking`(`IDpicking`, `PartNo`, `PartName`) VALUES (:idpicking, :partno, :partname);";
        
-
         try (Connection con = dao.conf.sql2o.beginTransaction())
         {
             con.createQuery(insertQuery)
