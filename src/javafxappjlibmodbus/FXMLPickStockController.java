@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import static javafxappjlibmodbus.FXMLDocumentController.stage;
 import javax.persistence.Table;
 import org.hibernate.Query;
+import org.hibernate.sql.Select;
 import org.sql2o.*;
 
 /**
@@ -221,16 +222,6 @@ public class FXMLPickStockController implements Initializable
                         {
                             LblStatusBarcode.setText("Get data from database");
                         });
-                    //open session
-                    //PLCModbus.session_mysql = connection.Controller.getSessionFactory().openSession();
-                    // create hql
-                    //String hql = "from Partlist where PartKanban = :id ";
-                    //Query q = PLCModbus.session_mysql.createQuery(hql);
-                    //q.setParameter("id", TxtBarcodeScan.getText());
-                    
-                   
-                    // fill to pojo
-                    //List<pojos.Partlist> lst = q.list();
                     
                     List<dao.partlistpicking> lst = getAllData(TxtBarcodeScan.getText());
                     
@@ -308,6 +299,31 @@ public class FXMLPickStockController implements Initializable
         }    
     }
          
+    private List<dao.stock_picking> getStockByPartNo(String partno){
+        String sql = "SELECT `PartNo`, `QtyStock` FROM stock_picking WHERE `PartNo`=:partno"; 
+        
+        try (Connection con = dao.conf.sql2o.open())
+        {
+            return con.createQuery(sql)
+                    .addParameter("partno", partno)
+                    .executeAndFetch(dao.stock_picking.class);
+        }
+    }
+    
+    private void updateStockByPartNo(String partno,int qtystock){
+        String sql = "UPDATE stock_picking SET `QtyStock`=:qtystock  WHERE `PartNo`=:partno"; 
+        
+        try (Connection con = dao.conf.sql2o.open())
+        {
+            con.createQuery(sql)
+                    .addParameter("qtystock", qtystock)
+                    .addParameter("partno", partno)
+                    .executeUpdate();
+        }
+    }
+    
+    
+    
     private List<dao.partlistpicking> getAllData(String kodebarcode){
         String sql = "SELECT seq, PartNo, PartName, IDpicking,qty, QtyStock " + 
                      "FROM partlist_picking " +
@@ -434,7 +450,18 @@ public class FXMLPickStockController implements Initializable
                                                         // write id picking to 4x2/R1
                                                         bacaDGV.IDpicking = bacaTable(seq - 1).IDpicking;
                                                         PLCModbus.master.writeSingleRegister(1, 2 - 1,bacaDGV.IDpicking);
-
+                                                        
+                                                        System.out.println("update stock");
+                                                        
+                                                        //update stock
+                                                        String selectedPartNo = TxtSelectedPartNo.getText();
+                                                        List<dao.stock_picking> lst = getStockByPartNo(selectedPartNo);
+                                                        ObservableList<dao.stock_picking> data = FXCollections.observableArrayList(lst);
+                                                        int lastStock = data.get(0).getQtyStock();
+                                                        int kurangiStock = Integer.valueOf(TxtSelectedQty.getText());
+                                                        lastStock = lastStock - kurangiStock;
+                                                        updateStockByPartNo(selectedPartNo, lastStock);
+                                                        
                                                         //highlight to row seq -1
                                                         setRowTable(seq - 1);
                                                     }
@@ -464,6 +491,7 @@ public class FXMLPickStockController implements Initializable
 
                                         } catch (Exception ex)
                                         {
+                                            System.err.println(ex.getMessage());
                                         }
 
                                     };
