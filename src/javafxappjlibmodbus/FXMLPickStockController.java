@@ -226,15 +226,13 @@ public class FXMLPickStockController implements Initializable
                     List<dao.partlistpicking> lst = getAllData(TxtBarcodeScan.getText());
                     
                     
-                    if (lst.size() == 0){
-                       
+                    if (lst.size() == 0){               
                         Platform.runLater(() ->
                         {
-                            LblStatusBarcode.setText("Part Kanban Tidak Ditemukan");
+                            LblStatusBarcode.setText("Part Kanban Tidak Ditemukan");             
+                            btnEnter.setText("Enter");
                         });
                         TxtBarcodeScan.setDisable(false);
-                        //btnEnter.setDisable(false);
-                        btnEnter.setText("Enter");
                         checkData = false;
                     }
                     else{
@@ -243,6 +241,25 @@ public class FXMLPickStockController implements Initializable
 
                         //binding to tableview
                         TblView2.setItems(data);
+                        
+                        //cek jika stok kurang
+                        for (int i=0; i<= data.size() - 1 ; i++){
+                            int cek = data.get(i).getQtyStock() - data.get(i).getQty();
+                            int x = i;
+                            if (cek < 0 ){
+                                Platform.runLater(() ->
+                                {
+                                    LblStatusBarcode.setText("Error : PartNo " + data.get(x).getPartNo() + " Kurang " + cek);
+                                    TxtBarcodeScan.setDisable(false);
+                                    TxtBarcodeScan.setText("");
+                                    //btnEnter.setDisable(false);
+                                    btnEnter.setText("Enter");
+                                });
+                                
+                                checkData = false;
+                                return;
+                            }
+                        }
 
                         TxtSelectedSeqNo.setText(String.valueOf(bacaTable(0).getSeq()));
                         TxtSelectedPartNo.setText(String.valueOf(bacaTable(0).getPartNo()));
@@ -472,7 +489,7 @@ public class FXMLPickStockController implements Initializable
                                                         startPicking = false;
                                                         Timer1_tick(false);
                                                         TxtBarcodeScan.setDisable(false);
-                                                        btnEnter.setText("Enter");
+                                                        
                                                         //btnEnter.setDisable(false);
                                                         
                                                         setFocusTxtBarcodeScan();
@@ -480,6 +497,7 @@ public class FXMLPickStockController implements Initializable
                                                         PLCModbus.pickingIsRunning = false;
                                                         Platform.runLater(() ->
                                                         {
+                                                            btnEnter.setText("Enter");
                                                             TxtBarcodeScan.setText("");
                                                             LblStatusBarcode.setText("Done");
                                                         });
