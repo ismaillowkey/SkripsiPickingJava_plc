@@ -274,10 +274,10 @@ public class FXMLDocumentController implements Initializable {
     public void loadHome()
     {
         mainPane.getChildren().clear();
-        mainPane.getChildren().add(PaneHome);
+        mainPane.getChildren().add(PanePickStock); //show pane viewstock first
 
         paneCOM.getParent().toFront();
-        PLCModbus.LastOpenPane = "home";
+        PLCModbus.LastOpenPane = "pickstock";
     }
 
     @FXML
