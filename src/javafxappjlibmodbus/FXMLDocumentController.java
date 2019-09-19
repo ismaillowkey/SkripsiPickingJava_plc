@@ -251,24 +251,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void menuHome_Clicked(ActionEvent event)
     {
-        if (!(PLCModbus.LastOpenPane).equals("home"))
-        {
-            //alert change pane
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            stage = (Stage) form1.getScene().getWindow();
-            alert.initOwner(stage);
-            String s = "Processing will exit. Are You Sure";
-            alert.setContentText(s);
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if ((result.isPresent()) && (result.get() == ButtonType.OK))
-            {
-                // Change Pane
-                //Pane newPane;
-                loadHome();
-            }
-        }
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(PaneHome);
     }
     
     public void loadHome()
