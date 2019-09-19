@@ -55,7 +55,6 @@ public class FXMLDocumentController implements Initializable {
     private ComboBox cmbPort;
     @FXML
     private Button btnRefresh;
-    @FXML
     private TextField txt4x1;
     @FXML
     private Button btnDisconnect;
@@ -148,7 +147,7 @@ public class FXMLDocumentController implements Initializable {
                             registerValues = PLCModbus.master.readHoldingRegisters(1, 1-1, 1);
                             //System.out.println("4x1 : " + registerValues[0]);
                             showStatus("Connected");
-                            txt4x1.setText(String.valueOf(registerValues[0]));
+                            //txt4x1.setText(String.valueOf(registerValues[0]));
                         } catch (ModbusProtocolException | ModbusNumberException | ModbusIOException ex ) {
                             showStatus("Reconnecting...");
                             //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);

@@ -42,7 +42,6 @@
       <Pane fx:id="mainPane" layoutX="149.0" maxHeight="646.0" maxWidth="1240.0" prefHeight="646.0" prefWidth="1240.0" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0" />
       <HBox layoutX="851.0" layoutY="600.0" prefHeight="71.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-2.0">
          <children>
-            <TextField fx:id="txt4x1" style="-fx-background-color: lightgrey;" />
             <Pane fx:id="paneCOM" prefHeight="71.0" prefWidth="528.0" style="-fx-background-color: rgb(243,243,243);">
                <effect>
                   <Glow level="0.0" />
