@@ -26,7 +26,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="95.0" prefHeight="30.0" prefWidth="96.0" text="Username">
+            <Label layoutX="25.0" layoutY="95.0" prefHeight="30.0" prefWidth="121.0" text="Username">
                <font>
                   <Font size="20.0" />
                </font>
@@ -73,7 +73,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="647.0" layoutY="105.0" prefHeight="338.0" prefWidth="385.0" style="-fx-border-color: black;">
+      <Pane layoutX="647.0" layoutY="105.0" prefHeight="338.0" prefWidth="408.0" style="-fx-border-color: black;">
          <children>
             <Label layoutX="2.0" text="PLC Setting">
                <font>

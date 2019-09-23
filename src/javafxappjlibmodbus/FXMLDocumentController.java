@@ -250,10 +250,14 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void menuBar_Close_Clicked(ActionEvent event) {
-         //get this stage 
+        /*
+        //get this stage 
         stage = (Stage)form1.getScene().getWindow();
         //minimize form
         stage.setIconified(true);
+        */
+        Platform.exit();
+        System.exit(0);
     }
 
     // Menu left

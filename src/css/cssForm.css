@@ -9,11 +9,12 @@ and open the template in the editor.
 */
 .button{
     -fx-background-color: rgb(19,62,232);
-    -fx-background-radius: 5;
-    -fx-border-color: transparent;
-    -fx-font-size : 15;
+    /*-fx-background-radius: 5;*/
+    /*-fx-border-color: transparent;*/
+    /*-fx-font-size : 15;*/
 }
 
+/*
 .button:hover{
     -fx-background-color: rgb(85,127,255);
     -fx-scale-y: 1.1;
@@ -21,5 +22,6 @@ and open the template in the editor.
     -fx-rotate: 7;
     -fx-border-color: transparent;
 }
+*/
 
 
