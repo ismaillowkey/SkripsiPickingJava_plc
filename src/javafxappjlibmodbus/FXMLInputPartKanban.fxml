@@ -13,14 +13,14 @@
       <TableView fx:id="TblPartKanban" layoutX="135.0" layoutY="14.0" onMouseClicked="#TblPartKanban_mouseclicked" prefHeight="514.0" prefWidth="171.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />
       <TableView fx:id="TblAllKanban" layoutX="355.0" layoutY="14.0" onMouseClicked="#TblAllKanban_mouseclicked" prefHeight="514.0" prefWidth="346.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />
       <Label layoutX="722.0" layoutY="18.0" text="Seq" />
-      <TextField fx:id="txtSeq" layoutX="757.0" layoutY="14.0" prefHeight="25.0" prefWidth="124.0" />
-      <TextField fx:id="txtIDpicking" layoutX="757.0" layoutY="52.0" prefHeight="25.0" prefWidth="124.0" />
+      <TextField fx:id="txtSeq" layoutX="761.0" layoutY="14.0" prefHeight="25.0" prefWidth="124.0" />
+      <TextField fx:id="txtIDpicking" layoutX="761.0" layoutY="52.0" prefHeight="25.0" prefWidth="124.0" />
       <Label layoutX="713.0" layoutY="48.0" text="ID&#10;Picking" textAlignment="CENTER" />
-      <TextField fx:id="txtQty" layoutX="757.0" layoutY="85.0" prefHeight="25.0" prefWidth="124.0" />
+      <TextField fx:id="txtQty" layoutX="761.0" layoutY="85.0" prefHeight="25.0" prefWidth="124.0" />
       <Label layoutX="722.0" layoutY="89.0" text="Qty" />
-      <Button fx:id="btnDelete" layoutX="722.0" layoutY="205.0" mnemonicParsing="false" onAction="#btnDelete_clicked" prefHeight="25.0" prefWidth="149.0" text="Delete" textAlignment="CENTER" />
-      <Button fx:id="btnUpdate" layoutX="722.0" layoutY="166.0" mnemonicParsing="false" onAction="#btnUpdate_clicked" prefHeight="25.0" prefWidth="149.0" text="Update" textAlignment="CENTER" />
-      <Button fx:id="btnAdd" layoutX="722.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnAdd_clicked" prefHeight="25.0" prefWidth="149.0" text="Add" textAlignment="CENTER" />
+      <Button fx:id="btnDelete" layoutX="722.0" layoutY="205.0" mnemonicParsing="false" onAction="#btnDelete_clicked" prefHeight="25.0" prefWidth="162.0" text="Delete" textAlignment="CENTER" />
+      <Button fx:id="btnUpdate" layoutX="722.0" layoutY="166.0" mnemonicParsing="false" onAction="#btnUpdate_clicked" prefHeight="25.0" prefWidth="162.0" text="Update" textAlignment="CENTER" />
+      <Button fx:id="btnAdd" layoutX="722.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnAdd_clicked" prefHeight="25.0" prefWidth="162.0" text="Add" textAlignment="CENTER" />
       <Label layoutX="314.0" layoutY="214.0" text="=&gt;">
          <font>
             <Font size="24.0" />

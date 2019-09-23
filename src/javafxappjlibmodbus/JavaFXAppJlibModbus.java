@@ -39,7 +39,7 @@ public class JavaFXAppJlibModbus extends Application {
 
         stage.initStyle(StageStyle.UNDECORATED);
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        new JMetro(JMetro.Style.LIGHT).applyTheme(root);  
+        //new JMetro(JMetro.Style.LIGHT).applyTheme(root);  
         Scene scene = new Scene(root); 
         stage.setScene(scene); 
         

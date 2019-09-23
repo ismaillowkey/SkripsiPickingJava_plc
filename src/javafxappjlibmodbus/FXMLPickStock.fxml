@@ -23,31 +23,31 @@
       </Pane>
       <Pane layoutX="150.0" layoutY="107.0" prefHeight="126.0" prefWidth="940.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <Label layoutX="21.0" layoutY="14.0" prefHeight="39.0" prefWidth="104.0" style="-fx-font-size: 20;" text="Seq No">
+            <Label layoutX="12.0" layoutY="14.0" prefHeight="39.0" prefWidth="104.0" style="-fx-font-size: 20;" text="Seq No">
                <font>
                   <Font size="8.0" />
                </font>
             </Label>
             <TextField fx:id="TxtSelectedSeqNo" disable="true" editable="false" layoutX="127.0" layoutY="14.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
             <TextField fx:id="TxtSelectedPartName" disable="true" editable="false" layoutX="127.0" layoutY="69.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
-            <Label layoutX="21.0" layoutY="69.0" prefHeight="39.0" prefWidth="104.0" style="-fx-font-size: 20;" text="Part Name">
+            <Label layoutX="7.0" layoutY="69.0" prefHeight="39.0" prefWidth="113.0" style="-fx-font-size: 20;" text="Part Name">
                <font>
-                  <Font size="8.0" />
+                  <Font size="6.0" />
                </font>
             </Label>
             <TextField fx:id="TxtSelectedPartNo" disable="true" editable="false" layoutX="504.0" layoutY="14.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
-            <Label layoutX="413.0" layoutY="14.0" prefHeight="39.0" prefWidth="90.0" style="-fx-font-size: 20;" text="Part No">
+            <Label layoutX="391.0" layoutY="14.0" prefHeight="39.0" prefWidth="90.0" style="-fx-font-size: 20;" text="Part No">
                <font>
                   <Font size="8.0" />
                </font>
             </Label>
-            <Label layoutX="413.0" layoutY="69.0" prefHeight="39.0" prefWidth="90.0" style="-fx-font-size: 20;" text="ID Picking">
+            <Label layoutX="391.0" layoutY="69.0" prefHeight="39.0" prefWidth="104.0" style="-fx-font-size: 20;" text="ID Picking">
                <font>
-                  <Font size="8.0" />
+                  <Font size="6.0" />
                </font>
             </Label>
             <TextField fx:id="TxtSelectedIDPicking" disable="true" editable="false" layoutX="504.0" layoutY="69.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 20;" />
-            <Label layoutX="775.0" layoutY="47.0" prefHeight="39.0" prefWidth="43.0" style="-fx-font-size: 20;" text="Qty">
+            <Label layoutX="766.0" layoutY="47.0" prefHeight="39.0" prefWidth="43.0" style="-fx-font-size: 20;" text="Qty">
                <font>
                   <Font size="8.0" />
                </font>

@@ -27,6 +27,8 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -191,21 +193,28 @@ public class FXMLDocumentController implements Initializable {
             cmbPort.getItems().clear();
         }
         
+        int indexCmb = 0;
+        
         for (int i=0; i<= PLCModbus.dev_list.length -1 ; i++){
             cmbPort.getItems().add(PLCModbus.dev_list[i]);
-            System.out.println(PLCModbus.dev_list[i]);
-            if(cmbPort.getItems().size() > 0){
-                cmbPort.setValue(PLCModbus.dev_list[0]);
-            }
             
-            if (startup){
-                if (PLCModbus.dev_list[i].toString().equals("/dev/ttyUSB0") || PLCModbus.dev_list[i].toString().equals("COM1")){
-                    btnConnect.fire();
-                    //System.out.println("ok");
+            if (cmbPort.getItems().size() > 0)
+            {
+                if (startup)
+                {
+                    System.out.println(cmbPort.getItems().get(i).toString());
+                    if (PLCModbus.dev_list[i].equals(String.valueOf("/dev/ttyUSB0")))
+                    {
+                        indexCmb = i;
+                        cmbPort.getSelectionModel().select(indexCmb);
+                        btnConnect.fire();
+                    }
+                }
+                else{
+                    cmbPort.setValue(PLCModbus.dev_list[0]);
                 }
             }
         }
-        
     }
 
     @FXML
