@@ -60,7 +60,6 @@ public class JavaFXAppJlibModbus extends Application {
         
         //stage.setMaximized(true); // set maximize form
         stage.setFullScreen(true); // set fullscreen form
-        PLCModbus.LastOpenPane = "home";
         stage.show();
     }
 

@@ -23,8 +23,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import static javafxappjlibmodbus.FXMLDocumentController.stage;
-import static javafxappjlibmodbus.FXMLInputRackController.getRow;
 import javax.persistence.Table;
 import org.sql2o.Connection;
 

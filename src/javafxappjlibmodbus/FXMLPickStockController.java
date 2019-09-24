@@ -28,10 +28,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import static javafxappjlibmodbus.FXMLDocumentController.stage;
 import javax.persistence.Table;
-import org.hibernate.Query;
-import org.hibernate.sql.Select;
 import org.sql2o.*;
 
 /**
@@ -143,7 +140,7 @@ public class FXMLPickStockController implements Initializable
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                stage = (Stage)formpickstock.getScene().getWindow();
+                Stage stage = (Stage)formpickstock.getScene().getWindow();
                 alert.initOwner(stage);
                 alert.setHeaderText("Connect to PLC first");
                 alert.showAndWait();
@@ -165,7 +162,7 @@ public class FXMLPickStockController implements Initializable
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                stage = (Stage)formpickstock.getScene().getWindow();
+                Stage stage = (Stage)formpickstock.getScene().getWindow();
                 alert.initOwner(stage);
                 alert.setHeaderText("Connect to PLC first");
                 alert.showAndWait();
@@ -177,16 +174,20 @@ public class FXMLPickStockController implements Initializable
             setClearRowSelectionTable(); 
             startPicking = false;
             Timer1_tick(false);
-            try { PLCModbus.master.writeSingleCoil(1, LastBacaIDPicking -1, false); } catch (Exception ex) { } 
-            TxtBarcodeScan.setDisable(false);
-            btnEnter.setText("Enter");
-            //btnEnter.setDisable(false);
-
-            setFocusTxtBarcodeScan();
-
-            PLCModbus.pickingIsRunning = false;
             Platform.runLater(() ->
             {
+                try
+                {
+                    PLCModbus.master.writeSingleCoil(1, LastBacaIDPicking - 1, false);
+                } catch (Exception ex) { }
+                TxtBarcodeScan.setDisable(false);
+                btnEnter.setText("Enter");
+                //btnEnter.setDisable(false);
+
+                setFocusTxtBarcodeScan();
+
+                PLCModbus.pickingIsRunning = false;
+
                 TxtBarcodeScan.setText("");
                 LblStatusBarcode.setText("Canceled By User");
             });

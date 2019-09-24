@@ -22,18 +22,14 @@ public class PLCModbus {
     public static ModbusMaster master;
     public static boolean mprocess;
     public static boolean pickingIsRunning;
-    
-    public static String LastOpenPane;
+
     
     // hibernate
     public static Session session_mysql;
     
     public static boolean StatusKoneksi;
     private static String ErrorConnect;
-    
-    //private static PLCModbus plcmodbus;
 
-    
     
     public static void ConnectToSlave(SerialParameters sp) {
         try{

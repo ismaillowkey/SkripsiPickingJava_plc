@@ -33,7 +33,9 @@ public class FXMLInStockController implements Initializable {
     @FXML
     private Pane PaneInput;
 
-    static Pane PaneInputPartKanban,PaneInputRack,PaneInputStock;
+    static Pane PaneAddPartKanban,PaneInputPartKanban,PaneInputRack,PaneInputStock;
+    @FXML
+    private Button BtnAddPartKanban;
         
     /**
      * Initializes the controller class.
@@ -43,6 +45,7 @@ public class FXMLInStockController implements Initializable {
         try
         {
             // TODO
+            PaneAddPartKanban = FXMLLoader.load(getClass().getResource("FXMLAddPartKanban.fxml"));
             PaneInputPartKanban = FXMLLoader.load(getClass().getResource("FXMLInputPartKanban.fxml"));
             PaneInputRack = FXMLLoader.load(getClass().getResource("FXMLInputRack.fxml"));
             PaneInputStock = FXMLLoader.load(getClass().getResource("FXMLInputStock.fxml"));
@@ -71,6 +74,13 @@ public class FXMLInStockController implements Initializable {
     {
         PaneInput.getChildren().clear();
         PaneInput.getChildren().add(PaneInputStock);
+    }
+
+    @FXML
+    private void BtnAddPartKanban_Clicked(ActionEvent event)
+    {
+        PaneInput.getChildren().clear();
+        PaneInput.getChildren().add(PaneAddPartKanban);
     }
     
 }

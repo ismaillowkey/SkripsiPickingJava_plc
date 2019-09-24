@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="fxAddPartKanban" prefHeight="570.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLAddPartKanbanController">
+   <children>
+      <TableView fx:id="TblAddPartKanban" layoutX="65.0" layoutY="123.0" onMouseClicked="#TblAddPartKanban_mouseclicked" prefHeight="426.0" prefWidth="601.0" style="-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@../css/tablerow.css" />
+      <TextField fx:id="txtPartKanban" layoutX="248.0" layoutY="34.0" onKeyPressed="#txtPartKanban_KeyPressed" prefHeight="58.0" prefWidth="417.0">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <Label layoutX="65.0" layoutY="43.0" text="Insert Part Kanban">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtSeq" disable="true" layoutX="729.0" layoutY="122.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="680.0" layoutY="127.0" text="Seq">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="671.0" layoutY="164.0" text="ID&#10;Picking" textAlignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtIDPicking" disable="true" layoutX="729.0" layoutY="169.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="680.0" layoutY="226.0" text="Qty">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtQty" disable="true" layoutX="729.0" layoutY="221.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btnInsert" layoutX="729.0" layoutY="273.0" mnemonicParsing="false" onAction="#btnInsert_clicked" prefHeight="25.0" prefWidth="187.0" text="Insert" />
+   </children>
+</AnchorPane>

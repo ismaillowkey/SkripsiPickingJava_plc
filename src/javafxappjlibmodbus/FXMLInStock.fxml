@@ -9,9 +9,10 @@
 
 <AnchorPane id="AnchorPane" prefHeight="610.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxappjlibmodbus.FXMLInStockController">
    <children>
-      <Button fx:id="BtnInputPartKanban" layoutX="9.0" layoutY="91.0" mnemonicParsing="false" onAction="#BtnInputPartKanban_Clicked" prefHeight="97.0" prefWidth="109.0" text="Input&#10;Part&#10;Kanban" textAlignment="CENTER" />
-      <Button fx:id="BtnInputRack" layoutX="9.0" layoutY="263.0" mnemonicParsing="false" onAction="#BtnInputRack_Clicked" prefHeight="97.0" prefWidth="109.0" text="Input&#10;Rack" />
+      <Button fx:id="BtnInputPartKanban" layoutX="9.0" layoutY="187.0" mnemonicParsing="false" onAction="#BtnInputPartKanban_Clicked" prefHeight="97.0" prefWidth="109.0" text="Edit&#10;Part&#10;Kanban" textAlignment="CENTER" />
+      <Button fx:id="BtnInputRack" layoutX="9.0" layoutY="323.0" mnemonicParsing="false" onAction="#BtnInputRack_Clicked" prefHeight="97.0" prefWidth="109.0" text="Input&#10;Rack" />
       <Button fx:id="BtnInputStock" layoutX="9.0" layoutY="452.0" mnemonicParsing="false" onAction="#BtnInputStock_Clicked" prefHeight="97.0" prefWidth="109.0" text="Input&#10;Stock" />
       <Pane fx:id="PaneInput" layoutX="129.0" layoutY="24.0" prefHeight="570.0" prefWidth="960.0" />
+      <Button fx:id="BtnAddPartKanban" layoutX="9.0" layoutY="53.0" mnemonicParsing="false" onAction="#BtnAddPartKanban_Clicked" prefHeight="97.0" prefWidth="109.0" text="Insert&#10;Part&#10;Kanban" textAlignment="CENTER" />
    </children>
 </AnchorPane>

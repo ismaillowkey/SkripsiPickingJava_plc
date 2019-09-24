@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import com.intelligt.modbus.jlibmodbus.Modbus;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusNumberException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusProtocolException;
@@ -21,24 +20,20 @@ import com.intelligt.modbus.jlibmodbus.serial.SerialPort;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPortFactoryJSSC;
 import com.intelligt.modbus.jlibmodbus.serial.SerialUtils;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-//import static javafxappjlibmodbus.FXMLDocumentController.sp;
 import jssc.SerialPortList;
 
 
@@ -209,6 +204,9 @@ public class FXMLDocumentController implements Initializable {
                         cmbPort.getSelectionModel().select(indexCmb);
                         btnConnect.fire();
                     }
+                    else{
+                        cmbPort.setValue(PLCModbus.dev_list[0]);
+                    }
                 }
                 else{
                     cmbPort.setValue(PLCModbus.dev_list[0]);
@@ -248,18 +246,7 @@ public class FXMLDocumentController implements Initializable {
         
     }
 
-    @FXML
-    private void menuBar_Close_Clicked(ActionEvent event) {
-        /*
-        //get this stage 
-        stage = (Stage)form1.getScene().getWindow();
-        //minimize form
-        stage.setIconified(true);
-        */
-        Platform.exit();
-        System.exit(0);
-    }
-
+    
     // Menu left
     @FXML
     private void menuHome_Clicked(ActionEvent event)
@@ -272,208 +259,66 @@ public class FXMLDocumentController implements Initializable {
     {
         mainPane.getChildren().clear();
         mainPane.getChildren().add(PanePickStock); //show pane viewstock first
-
         paneCOM.getParent().toFront();
-        PLCModbus.LastOpenPane = "pickstock";
     }
 
     @FXML
     private void menuInStock_Clicked(ActionEvent event)  {
         mainPane.getChildren().clear();
         mainPane.getChildren().add(PaneInStock);
-        PLCModbus.LastOpenPane = "instock";
-                
-        /*
-        if ((PLCModbus.LastOpenPane).equals("home")){
-            //try
-            //{
-                //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
-                //newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
-                mainPane.getChildren().clear();
-                mainPane.getChildren().add(PaneInStock);
-                PLCModbus.LastOpenPane = "instock";
-            //} catch (IOException ex)
-            //{
-            //    System.out.println(ex.getMessage());
-            //    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            //}
-        }
-        
-        else if (!(PLCModbus.LastOpenPane).equals("instock")){
-            //alert change pane
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            stage = (Stage)form1.getScene().getWindow();
-            alert.initOwner(stage);
-            String s = "Processing will exit. Are You Sure";
-            alert.setContentText(s);
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-                // Change Pane
-                //Pane newPane;
-                //try {
-                    //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
-                    //newPane = FXMLLoader.load(getClass().getResource("FXMLInStock.fxml"));
-                    
-                    mainPane.getChildren().clear();
-                    mainPane.getChildren().add(PaneInStock);
-                    PLCModbus.LastOpenPane = "instock";
-                //} catch (IOException ex) {
-                //    System.out.println(ex.getMessage());
-                //    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                //}
-            }
-        }
-        */
     }
 
     @FXML
     private void menuOutStock_Clicked(ActionEvent event) {
         mainPane.getChildren().clear();
         mainPane.getChildren().add(PanePickStock);
-        PLCModbus.LastOpenPane = "pickstock";
-              
-        /*
-        if ((PLCModbus.LastOpenPane).equals("home")){
-            //try
-            //{
-                //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
-                //newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
-                mainPane.getChildren().clear();
-                mainPane.getChildren().add(PanePickStock);
-                PLCModbus.LastOpenPane = "pickstock";
-            //} 
-            //catch (IOException ex)
-            //{
-            //    System.out.println(ex.getMessage());
-            //    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            //}
-        }
-        
-        else if (!(PLCModbus.LastOpenPane).equals("pickstock")){
-            //alert change pane
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            stage = (Stage)form1.getScene().getWindow();
-            alert.initOwner(stage);
-            String s = "Processing will exit. Are You Sure";
-            alert.setContentText(s);
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-                // Change Pane
-                //Pane newPane;
-                //try {
-                    //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
-                    //newPane = FXMLLoader.load(getClass().getResource("FXMLPickStock.fxml"));
-                    mainPane.getChildren().clear();
-                    mainPane.getChildren().add(PanePickStock);
-                    PLCModbus.LastOpenPane = "pickstock";
-                //} catch (IOException ex) {
-                //    System.out.println(ex.getMessage());
-                //    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                //}
-            }
-        }
-        */
     }
 
     @FXML
     private void menuLayout_Clicked(ActionEvent event) {
         mainPane.getChildren().clear();
         mainPane.getChildren().add(PaneLayout);
-        PLCModbus.LastOpenPane = "instock";
-            
-        /*
-        if ((PLCModbus.LastOpenPane).equals("home")){
-            //try
-            //{
-                //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
-                //newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
-                mainPane.getChildren().clear();
-                mainPane.getChildren().add(PaneLayout);
-                PLCModbus.LastOpenPane = "instock";
-            //} catch (IOException ex)
-            //{
-            //    System.out.println(ex.getMessage());
-            //    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            //}
-        }
-        
-        else if (!(PLCModbus.LastOpenPane).equals("layout")){
-            //alert change pane
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            stage = (Stage)form1.getScene().getWindow();
-            alert.initOwner(stage);
-            String s = "Processing will exit. Are You Sure";
-            alert.setContentText(s);
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-                // Change Pane
-                //Pane newPane;
-                //try {
-                    //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
-                    //newPane = FXMLLoader.load(getClass().getResource("FXMLLayout.fxml"));
-                    mainPane.getChildren().clear();
-                    mainPane.getChildren().add(PaneLayout);
-                    PLCModbus.LastOpenPane = "layout";
-                //} catch (IOException ex) {
-                //    System.out.println(ex.getMessage());
-                //    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                //}
-            }
-        }
-        */
     }
 
     @FXML
     private void menuSettings_Clicked(ActionEvent event) {
         mainPane.getChildren().clear();
         mainPane.getChildren().add(PaneSetting);
-        PLCModbus.LastOpenPane = "instock";
-           
-        /*
-        if ((PLCModbus.LastOpenPane).equals("home")){
-             //try
-             //{
-                 //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
-                 //newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
-                 mainPane.getChildren().clear();
-                 mainPane.getChildren().add(PaneSetting);
-                 PLCModbus.LastOpenPane = "instock";
-             //} catch (IOException ex)
-             //{
-             //    System.out.println(ex.getMessage());
-             //    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-             //}
-        }
-        
-        else if (!(PLCModbus.LastOpenPane).equals("setting")){
-            //alert change pane
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            stage = (Stage)form1.getScene().getWindow();
-            alert.initOwner(stage);
-            String s = "Processing will exit. Are You Sure";
-            alert.setContentText(s);
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-                // Change Pane
-                //Pane newPane;
-                //try {
-                    //Pane newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
-                    //newPane = FXMLLoader.load(getClass().getResource("FXMLSettings.fxml"));
-                    mainPane.getChildren().clear();
-                    mainPane.getChildren().add(PaneSetting);
-                    PLCModbus.LastOpenPane = "setting";
-            }
-        }
-        */
     }
+    
+    @FXML
+    private void menuBar_Close_Clicked(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Are you sure to Exit?");
+        alert.setContentText("Yes = Exit, No = Minimize");
+        stage = (Stage) form1.getScene().getWindow();
+        alert.initOwner(stage);
+        ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
+        alert.showAndWait().ifPresent(type ->
+        {
+            if (type.getText() == "Yes")
+            {
+                // exit app
+                Platform.exit();
+                System.exit(0);
+            }
+            else if (type.getText() == "No")
+            {
+                // hide app
+                //get this stage 
+                stage = (Stage) form1.getScene().getWindow();
+                //minimize form
+                stage.setIconified(true);
+            }
+            else
+            {
+            }
+        });
+    }
+
     
     
 }

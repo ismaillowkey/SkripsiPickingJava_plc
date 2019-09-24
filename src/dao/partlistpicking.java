@@ -46,12 +46,20 @@ public class partlistpicking
     {
         return PartKanban;
     }
-        
+
+    public void setPartKanban(String PartKanban)
+    {
+        this.PartKanban = PartKanban;
+    }
        
-        
     public int getSeq()
     {
         return this.seq;
+    }
+
+    public void setSeq(int seq)
+    {
+        this.seq = seq;
     }
 
     public String getPartNo()
@@ -59,24 +67,50 @@ public class partlistpicking
         return this.PartNo;
     }
 
+    public void setPartNo(String PartNo)
+    {
+        this.PartNo = PartNo;
+    }
+
     public String getPartName()
     {
         return this.PartName;
     }
 
+    public void setPartName(String PartName)
+    {
+        this.PartName = PartName;
+    }
+    
     public int getIDpicking()
     {
         return this.IDpicking;
+    }
+
+    public void setIDpicking(int IDpicking)
+    {
+        this.IDpicking = IDpicking;
     }
 
     public int getQty()
     {
         return this.qty;
     }
-     
+
+    public void setQty(int qty)
+    {
+        this.qty = qty;
+    }
+    
     public int getQtyStock()
     {
         return this.QtyStock;
     }
+
+    public void setQtyStock(int QtyStock)
+    {
+        this.QtyStock = QtyStock;
+    }
+    
 }
       

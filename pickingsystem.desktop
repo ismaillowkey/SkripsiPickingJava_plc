@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Network
+Comment=Configure network devices and connections
+Exec=java -Djavafx.platform=gtk2 -jar JavaFXPickingSystemPLC.jar
+Icon=preferences-system-network
+Terminal=true
+Type=Application

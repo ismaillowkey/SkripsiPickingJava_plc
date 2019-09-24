@@ -5,7 +5,6 @@
  */
 package javafxappjlibmodbus;
 
-import com.sun.javafx.iio.ImageStorage;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -155,32 +154,13 @@ public class FXMLInputPartKanbanController implements Initializable
     @FXML
     private void btnAdd_clicked(ActionEvent event)
     {
-        try
-        {
-            if (txtSeq.getText().isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
-                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data Seq tidak boleh kosong"); alert.showAndWait();
-                return;
+        try{
+            if (CheckAllData())
+            {
+                dao.partlistpicking lst = new dao.partlistpicking(SelectedPartKanban, Integer.valueOf(txtSeq.getText()), Integer.valueOf(txtIDpicking.getText()), Integer.valueOf(txtQty.getText()));
+                insertAllPartKanban(lst);
+                loadAllKanban();
             }
-            
-            if (txtIDpicking.getText().isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
-                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data ID Picking tidak boleh kosong");  alert.showAndWait();
-                return;
-            }
-            
-            if (txtQty.getText().isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
-                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();alert.initOwner(stage);
-                alert.setHeaderText("Data Qty tidak boleh kosong");  alert.showAndWait();
-                return;
-            }
-            
-            dao.partlistpicking lst = new dao.partlistpicking(SelectedPartKanban, Integer.valueOf(txtSeq.getText()),Integer.valueOf(txtIDpicking.getText()),Integer.valueOf(txtQty.getText()));
-            insertAllPartKanban(lst);
-            loadAllKanban();
         } catch (Exception ex)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR); alert.setTitle("Error");
@@ -244,7 +224,87 @@ public class FXMLInputPartKanbanController implements Initializable
         }
     }
 
-    
+    private boolean CheckAllData(){
+        if (txtSeq.getText().isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText("Data Seq tidak boleh kosong");
+            alert.showAndWait();
+            return false;
+        }
+        else
+        {
+            try
+            {
+                int value = Integer.valueOf(txtSeq.getText());
+            } catch (Exception ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();
+                alert.initOwner(stage);
+                alert.setHeaderText("Data Seq harus berisi Angka");
+                alert.showAndWait();
+                return false;
+            }
+        }
+
+        if (txtIDpicking.getText().isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText("Data ID Picking tidak boleh kosong");
+            alert.showAndWait();
+            return false;
+        }
+        {
+            try
+            {
+                int value = Integer.valueOf(txtIDpicking.getText());
+            } catch (Exception ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();
+                alert.initOwner(stage);
+                alert.setHeaderText("Data ID Picking harus berisi Angka");
+                alert.showAndWait();
+                return false;
+            }
+        }
+
+        if (txtQty.getText().isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.setHeaderText("Data Qty tidak boleh kosong");
+            alert.showAndWait();
+            return false;
+        }
+        {
+            try
+            {
+                int value = Integer.valueOf(txtQty.getText());
+            } catch (Exception ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                Stage stage = (Stage) fxInputPartKanban.getScene().getWindow();
+                alert.initOwner(stage);
+                alert.setHeaderText("Data Qty harus berisi Angka");
+                alert.showAndWait();
+                return false;
+            }
+        }
+        return true;
+    }
 
     
     
